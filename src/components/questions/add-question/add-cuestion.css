@@ -1,0 +1,8 @@
+.list-group-item.add-question p {
+  padding-bottom: 10px;
+}
+
+.question-area textarea {
+  margin-top: 1px;
+  margin-bottom: 2px;
+}

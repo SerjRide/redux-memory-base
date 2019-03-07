@@ -1,5 +1,20 @@
 .list-group {
   color: black;
+  padding: 0;
+}
+
+.list-group-item.item,
+.list-group-item.header {
+  padding: 0;
+  display: flex;
+}
+
+.list-group-item.item p,
+.list-group-item.header p {
+  padding-top: 13px;
+  padding-left: 22px;
+  margin: 0;
+  width: 80%;
 }
 
 .list-group .header {
@@ -10,6 +25,10 @@
   background-color: #f4fcef;
 }
 
+.list-group .category {
+  padding-bottom: 10px;
+}
+
 .list-group .footer {
   border: 0;
   border-top: solid 1px #dfdfdf;
@@ -18,4 +37,42 @@
 .list-group .item:hover {
   cursor: pointer;
   background-color: #f4fcef;
+}
+
+.search {
+  margin-top: 10px;
+  width: 111px;
+  margin-right: 20px;
+  height: 25px;
+  border:0;
+  background-color: #f4fcef;
+  border-bottom: solid 1px #dfdfdf;
+}
+
+.search:focus {
+  outline: 0;
+}
+
+.list-group-item.item:hover,
+.list-group-item.item:hover button.list{
+  transition: 0.1s;
+  background-color: #f4fcef;
+}
+
+.list-group-item button:hover {
+  background-color: #DAE4D3!important;
+}
+
+button.header {
+  background-color: #f4fcef!important;
+}
+
+input.rename {
+  padding-left: 20px;
+  width: 80%;
+  border: 0;
+}
+
+input.rename:focus {
+  outline: 0;
 }

@@ -5,7 +5,7 @@ import './header.css';
 const Header = () => {
   return (
     <div className="header">
-      <h1>React Memory Base</h1>
+      <h1>Redux Memory Base</h1>
     </div>
   );
 };

@@ -6,6 +6,8 @@ import Head from './head';
 import List from './list';
 import Footer from './footer';
 import Player from './player';
+import Edit from './edit';
+import AddQuestion from './add-question';
 
 export default class Questions extends Component {
 
@@ -16,9 +18,10 @@ export default class Questions extends Component {
         <Head />
         <List />
         <Footer />
+        <AddQuestion />
         <Player />
+        <Edit />
       </ul>
     );
   }
-
 };

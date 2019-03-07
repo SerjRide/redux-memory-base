@@ -1,3 +1,6 @@
+
+
+
 .question-area textarea{
   width: 100%;
   border: 0;
@@ -35,6 +38,7 @@ textarea:focus {
 
 .question-bar-head .right{
   font-style: normal;
+  padding: 12px 14px 10px 0;
 }
 
 .btn.btn-secondary {
@@ -67,6 +71,7 @@ input[type='number'] {
 
 a.crumb {
   font-weight: lighter;
+  padding: 10px 0 10px 14px;
 }
 
 a.crumb:hover {
@@ -90,6 +95,11 @@ button[data-title]:hover::after {
   content: attr(data-title);
   animation-name: tooltip;
   animation-duration: 1s;
+}
+
+.list-group-item button {
+  position:relative;
+  z-index: 9999;
 }
 
 @keyframes tooltip {
