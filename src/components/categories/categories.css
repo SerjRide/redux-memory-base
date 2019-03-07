@@ -1,0 +1,21 @@
+.list-group {
+  color: black;
+}
+
+.list-group .header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  text-align: left;
+  background-color: #f4fcef;
+}
+
+.list-group .footer {
+  border: 0;
+  border-top: solid 1px #dfdfdf;
+}
+
+.list-group .item:hover {
+  cursor: pointer;
+  background-color: #f4fcef;
+}
