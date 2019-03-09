@@ -1,22 +1,104 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import {
+  QuestionData,
+  removeQuestion,
+  findCountById,
+  findId } from '../../../service/question-data.js';
+
+import { setQuestion, hidePlayer, editQuestion } from '../../actions';
 
 import './player.css';
 
-export default class Player extends Component {
+class Player extends Component {
+
+  changeQuestion = (action) => {
+    const { setQuestion } = this.props
+    const currentCategory = findCountById(this.props.state[0]);
+    const currentQuestion = findCountById(this.props.state[1], false);
+    const length = QuestionData[currentCategory].length - 1
+    const { question } = QuestionData[currentCategory][currentQuestion];
+    let count;
+
+    if (action === '+') {
+      if (currentQuestion === length) {
+        setQuestion(findId(currentCategory,1));
+      } else {
+        count = currentQuestion + 1
+        setQuestion(findId(currentCategory,count));
+      }
+    }
+    if (action === '-') {
+      if (currentQuestion === 1) {
+          setQuestion(findId(currentCategory,length));
+      } else {
+        count = currentQuestion - 1
+        setQuestion(findId(currentCategory,count));
+      }
+    }
+    if (action === '<<') setQuestion(findId(currentCategory,1));
+    if (action === '>>') setQuestion(findId(currentCategory,length));
+
+    this.questionArea.value = question;
+    this.answerArea.value = '';
+  }
+
+  help = () => {
+    const currentCategory = findCountById(this.props.state[0]);
+    const currentQuestion = findCountById(this.props.state[1], false);
+    const { answer } = QuestionData[currentCategory][currentQuestion];
+    this.answerArea.value = answer;
+  }
+
+  check = () => {
+    const currentCategory = findCountById(this.props.state[0]);
+    const currentQuestion = findCountById(this.props.state[1], false);
+    const { answer } = QuestionData[currentCategory][currentQuestion];
+    if (this.answerArea.value === answer){
+      this.changeQuestion('+');
+    } else alert('Ответ не верный')
+  };
+
+  deleteQuestion = (currentCategory, currentQuestion) => {
+    const { length } = QuestionData[currentCategory];
+
+    removeQuestion(currentCategory, currentQuestion);
+
+    if (length !== 2 || currentQuestion !== length - 1) {
+      this.props.setQuestion(findId(currentCategory, currentQuestion))
+    }
+
+    if (length === 2) {
+      this.props.hidePlayer()
+    } else if (currentQuestion === length - 1) {
+      this.props.setQuestion(findId(currentCategory, currentQuestion - 1))
+    }
+  }
 
   render() {
+    const currentCategory = findCountById(this.props.state[0]);
+    const currentQuestion = findCountById(this.props.state[1], false);
+
+    const { length } = QuestionData[currentCategory]
+    const { name } = QuestionData[currentCategory][0];
+    const { question } = QuestionData[currentCategory][currentQuestion];
 
     return(
       <React.Fragment>
       <ul className="list-group" id="question_list">
         <li className="list-group-item no-active question-bar-head header">
-          <Link to="/" className="item crumb question-bar"
-            onClick={ () => console.log('Question_list') }>
+          <Link
+            to="/"
+            className="item crumb question-bar"
+            onClick={ () => this.props.hidePlayer() }>
             <i className="fas fa-chevron-left crumb"></i>
-            categoryName
+            { name }
           </Link>
-          <i className="right">2 of 6</i>
+          <i className="right">
+            { currentQuestion } of { length - 1 }
+          </i>
         </li>
       </ul>
       <div className="btn-group btn-group-md"
@@ -24,7 +106,13 @@ export default class Player extends Component {
            aria-label="Basic example">
         <button
            data-title="Edit question"
-           type="button" onClick={ () => console.log('Edit') }
+           type="button" onClick={
+
+             () => this.props
+                       .editQuestion(
+                         findId(currentCategory ,currentQuestion))
+
+           }
            className="btn btn-secondary">
            <i className="far fa-edit"></i>
         </button>
@@ -35,13 +123,13 @@ export default class Player extends Component {
            <i className="far fa-bookmark"></i>
         </button>
         <button
-           type="button" onClick={ () => console.log('First_question') }
+           type="button" onClick={ () => this.changeQuestion('<<') }
            className="btn btn-secondary"
            data-title="Go to the first question">
            <i className="fas fa-angle-double-left"></i>
         </button>
         <button
-           type="button" onClick={ () => console.log('Prev_question') }
+           type="button" onClick={ () => this.changeQuestion('-') }
            className="btn btn-secondary"
            data-title="Previous question">
            <i className="fas fa-angle-left"></i>
@@ -51,31 +139,32 @@ export default class Player extends Component {
             className="form-control" id="questionNumber"
             onKeyDown={ () => console.log('onKeyDown') }
 
-            defaultValue={ '2' }
+            placeholder={ currentQuestion }
 
             aria-label="Input group example"
             aria-describedby="btnGroupAddon"/>
         </div>
         <button id="onNextClick"
-           type="button" onClick={ () => console.log('next_question') }
+           type="button" onClick={ () => this.changeQuestion('+') }
            className="btn btn-secondary"
            data-title="Next question">
            <i className="fas fa-angle-right"></i>
         </button>
         <button
-           type="button" onClick={ () => console.log('Last_question') }
+           type="button" onClick={ () => this.changeQuestion('>>') }
            className="btn btn-secondary"
            data-title="Go to the last question">
            <i className="fas fa-angle-double-right"></i>
         </button>
         <button
-           type="button" onClick={ () => console.log('Help') }
+           type="button" onClick={ this.help }
            className="btn btn-secondary"
            data-title="Show answer">
            <i className="fas fa-question"></i>
         </button>
         <button
-           type="button" onClick={ () => console.log('Del') }
+           type="button"
+           onClick={ () => this.deleteQuestion(currentCategory, currentQuestion) }
            className="btn btn-secondary"
            data-title="Delete question">
            <i className="far fa-trash-alt"></i>
@@ -84,11 +173,16 @@ export default class Player extends Component {
 
 
       <div className='question-area'>
-        <textarea disabled placeholder='Вопрос'></textarea>
-        <textarea id="answer"
-        onKeyDown={ () => console.log('Apply') }/>
+        <textarea
+          value={ question }
+          ref={(e) => { this.questionArea = e }}
+          disabled/>
+        <textarea
+          ref={(e) => { this.answerArea = e }}
+          id="answer"
+          onKeyDown={ () => console.log('Apply') }/>
         <button
-          type="button" onClick={ () => console.log('Apply') }
+          type="button" onClick={ this.check }
           className="btn btn-success btn-sm btn-block">
           Apply
         </button>
@@ -97,4 +191,14 @@ export default class Player extends Component {
     );
   }
 
+}
+
+const mapStateToProps = (state) => ({ state: state })
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setQuestion: (id) => dispatch(setQuestion(id)),
+    hidePlayer: () => dispatch(hidePlayer()),
+    editQuestion: (id) => dispatch(editQuestion(id))
+  }
 };
+export default connect(mapStateToProps, mapDispatchToProps)(Player);

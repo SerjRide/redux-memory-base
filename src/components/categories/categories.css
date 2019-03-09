@@ -11,10 +11,14 @@
 
 .list-group-item.item p,
 .list-group-item.header p {
-  padding-top: 13px;
+  padding-top: 12px;
   padding-left: 22px;
-  margin: 0;
   width: 80%;
+  margin-bottom: 0;
+}
+
+.list-group-item.header p {
+  margin-bottom: 10px;
 }
 
 .list-group .header {
@@ -23,10 +27,6 @@
   font-weight: bold;
   text-align: left;
   background-color: #f4fcef;
-}
-
-.list-group .category {
-  padding-bottom: 10px;
 }
 
 .list-group .footer {
@@ -75,4 +75,18 @@ input.rename {
 
 input.rename:focus {
   outline: 0;
+}
+
+.over_li {
+   list-style-type: none;
+}
+
+.under_ul {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.list-group-item.item.editCategoryInput {
+  display: none;
 }

@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 
 import './questions.css';
 
@@ -6,22 +7,40 @@ import Head from './head';
 import List from './list';
 import Footer from './footer';
 import Player from './player';
-import Edit from './edit';
 import AddQuestion from './add-question';
+import Edit from './edit';
 
-export default class Questions extends Component {
+const Questions = (props) => {
+  const currentQuestion = props.state[1]
+  const addMenu = props.state[3]
+  const editMenu = props.state[4]
 
-  render() {
+  let content = (
+    <React.Fragment>
+      <Head />
+      <List />
+      <Footer />
+    </React.Fragment>
+  )
 
-    return(
-      <ul className="list-group">
-        <Head />
-        <List />
-        <Footer />
-        <AddQuestion />
-        <Player />
-        <Edit />
-      </ul>
-    );
+  if (currentQuestion) {
+    content = <Player />
   }
-};
+
+  if (addMenu) {
+    content = <AddQuestion />
+  }
+
+  if (editMenu) {
+    content = <Edit />
+  }
+
+  return(
+    <ul className="list-group">
+      {content}
+    </ul>
+  );
+}
+
+const mapStateToProps = (state) => ({ state: state })
+export default connect(mapStateToProps)(Questions);

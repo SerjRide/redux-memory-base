@@ -1,0 +1,7 @@
+p.empty {
+  padding-bottom: 12px;
+}
+
+.list-group-item.header button.head {
+  background-color: #f4fcef;
+}

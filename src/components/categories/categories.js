@@ -1,22 +1,23 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import './categories.css';
 
 import Head from './head';
+import CreateCategory from './create-category';
 import List from './list';
 import Footer from './footer';
 
-export default class Categories extends Component {
+const Categories = () => {
 
-  render() {
+  return(
+    <ul className="list-group">
+      <Head />
+      <CreateCategory />
+      <List />
+      <Footer />
+    </ul>
+  );
 
-    return(
-      <ul className="list-group">
-        <Head />
-        <List />
-        <Footer />
-      </ul>
-    );
-  }
+}
 
-};
+export default Categories;
