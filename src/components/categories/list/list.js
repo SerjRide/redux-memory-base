@@ -7,15 +7,33 @@ import {
   findCountById } from '../../../service/question-data.js';
 
 //импорты для доступа к state'у
-import { setCategory, update, editCategory, alert } from '../../actions';
+import {
+    setCategory,
+    update,
+    editCategory,
+    alert,
+    changeCategoryPage } from '../../actions';
+
 import { connect } from 'react-redux';
 
 class List extends Component {
 
+  componentDidMount() {
+    this.synch();
+  }
+
   delCategory = (id) => {
     removeCategory(id)
-    this.props.update()
+    this.synch();
+    this.props.update();
   };
+
+  synch = (obj = QuestionData) => {
+    const { length } = obj
+    const totalPages = Math.ceil(length / 5);
+    const active = this.props.state[9][0]
+    this.props.changeCategoryPage([active, totalPages])
+  }
 
   startEdit = (id) => {
     const count = findCountById(id)
@@ -69,19 +87,15 @@ class List extends Component {
     })
 
     this.props.update();
+
   }
 
   pageOutput = (items) => {
-
-    // const test = items.filter((item, i) => {
-    //   if (i >= 5) return null
-    //   return item
-    // })
-
-    // console.log(test);
-
+    console.log(items);
+    const currentPage = this.props.state[9][0]
+    const count = currentPage * 5
     return items.filter((item, i) => {
-      if (i >= 5) return null
+      if (i < count || i >= count + 5) return null
       return item
     });
   }
@@ -157,7 +171,8 @@ const mapDispatchToProps = (dispatch) => {
     onSelectCategory: (id) => dispatch(setCategory(id)),
     update: () => dispatch(update()),
     editCategory: () => dispatch(editCategory()),
-    alert: (text, type) => dispatch(alert(text, type))
+    alert: (text, type) => dispatch(alert(text, type)),
+    changeCategoryPage: (num) => dispatch(changeCategoryPage(num))
   }
 };
 

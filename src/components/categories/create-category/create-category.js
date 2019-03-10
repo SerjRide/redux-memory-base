@@ -5,7 +5,7 @@ import {
   QuestionData,
   createCategory } from '../../../service/question-data.js';
 
-import { update, alert } from '../../actions';
+import { update, alert, changeCategoryPage } from '../../actions';
 
 import './create-category.css';
 
@@ -17,6 +17,7 @@ class CreateCategory extends Component {
       const id = Date.now();
       createCategory(value, id);
       this.props.update();
+      this.synch();
       this.newCategoryInput.value = '';
       this.props.alert('Category created');
     } else {
@@ -28,6 +29,13 @@ class CreateCategory extends Component {
       this.props.alert('The category must have a name', false);
     }
   };
+
+  synch = (obj = QuestionData) => {
+    const { length } = obj
+    const totalPages = Math.ceil(length / 5);
+    const active = this.props.state[9][0]
+    this.props.changeCategoryPage([active, totalPages])
+  }
 
   onEnter = (e) => {
     if (e.which === 13) {
@@ -65,7 +73,8 @@ const mapStateToProps = (state) => ({ state: state })
 const mapDispatchToProps = (dispatch) => {
   return{
     update: () => dispatch(update()),
-    alert: (text,type) => dispatch(alert(text,type))
+    alert: (text,type) => dispatch(alert(text,type)),
+    changeCategoryPage: (num) => dispatch(changeCategoryPage(num))
   }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(CreateCategory)
