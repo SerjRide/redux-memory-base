@@ -9,7 +9,8 @@ import {
   editQuestion,
   alert,
   categorySearch,
-  questionSearch
+  questionSearch,
+  changeCategoryPage
 
 } from './actions';
 
@@ -24,6 +25,7 @@ export {
   editQuestion,
   alert,
   categorySearch,
-  questionSearch
+  questionSearch,
+  changeCategoryPage
 
 }

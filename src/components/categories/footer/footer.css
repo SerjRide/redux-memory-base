@@ -1,0 +1,63 @@
+.list-group-item.footer {
+  display: flex;
+}
+
+ul.pages_ul {
+  display: flex;
+  padding: 0;
+  position: absolute;
+  top:-8px;
+  right: 1px;
+}
+
+ul.pages_ul label {
+  list-style-type: none;
+  display: block;
+  cursor: pointer;
+  line-height: 2.5;
+  font-size: 1.5em;
+}
+
+[type="radio"] {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  background-color: green;
+}
+
+[type="radio"] + span {
+  display: block;
+}
+
+[type="radio"] + span:before {
+  content: '';
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  vertical-align: -0.25em;
+  box-shadow: 0 0 0 1px #dfdfdf;
+  transition: 0.2s ease all;
+}
+
+[type="radio"]:checked + span:before {
+  background: #e6e6e6 ;
+}
+
+[type="radio"]:focus + span:after {
+  font-size: 1.5em;
+  line-height: 1;
+  vertical-align: -0.125em;
+}
+
+ul.pages_ul label p {
+  position: absolute;
+  top: 9px;
+  padding-left: 11px;
+  font-size: 10pt;
+  margin: 0;
+}
