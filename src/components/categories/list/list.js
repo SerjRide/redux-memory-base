@@ -34,7 +34,8 @@ class List extends Component {
 
   check = (id) => {
     const name = document.getElementById(`rename_${id}`).value
-    if (name !== '') {
+
+    if (name !== '' && String(name).length < 25) {
       rename(findCountById(id),name);
       this.props.update();
       this.props.alert('Category renamed');
