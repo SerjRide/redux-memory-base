@@ -40,7 +40,6 @@ class Footer extends Component {
 
   buttonsLogic = (action) => {
     const active = this.props.state[9][0];
-    const arr = document.getElementsByClassName('pageButton')
     const next = document.getElementById('cat-page-next');
     const prev = document.getElementById('cat-page-prev');
     const totalPages = this.props.state[9][1]

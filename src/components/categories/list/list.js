@@ -85,13 +85,9 @@ class List extends Component {
     return items.filter((item) => {
       return item[0].name.indexOf(term) > -1;
     })
-
-    this.props.update();
-
   }
 
   pageOutput = (items) => {
-    console.log(items);
     const currentPage = this.props.state[9][0]
     const count = currentPage * 5
     return items.filter((item, i) => {

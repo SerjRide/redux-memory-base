@@ -44,8 +44,6 @@ const List = (props) => {
                                 .indexOf(term.toLowerCase()) > -1;
         return null
       })
-
-      props.setCategory(currentCategory);
     }
 
     const term = props.state[8]
