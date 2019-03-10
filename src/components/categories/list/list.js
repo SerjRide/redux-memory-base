@@ -34,7 +34,8 @@ class List extends Component {
 
   update = () => {
     if (this.props.state[2]){
-      const selectPage = this.props.state[9][1]
+      let selectPage = this.props.state[9][1]
+      if (selectPage === undefined) selectPage = 0;
       this.pageOutput(selectPage);
     }
     this.setState({
@@ -76,6 +77,12 @@ class List extends Component {
 
 
   delCategory = (id) => {
+    const page = this.props.state[9][0]
+    const output = this.props.state[9][1]
+    if (output !== 0 && page === 2){
+      console.log('ok');
+      this.props.changeCategoryPage([page,0]);
+    }
     removeCategory(id)
     this.props.update()
   };

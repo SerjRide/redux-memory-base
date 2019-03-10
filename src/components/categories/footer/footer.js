@@ -13,47 +13,29 @@ class Footer extends Component {
     console.log('Отображать страницы с', selectPage, 'записи')
   }
 
-  // buttonsRender = () => {
-  //   const countPages = this.props.state[9][0]
-  //   let value = 0, name = 1, buttons
-  //   for (let i = 0; i <= countPages; i++) {
-  //     value += 5
-  //     name++
-  //     buttons = (
-  //       <React.Fragment>
-  //         <input
-  //           onClick={ (e) => this.selectPage(e) }
-  //           name="page"
-  //           type="radio"
-  //           value={ value }/> { name }
-  //       </React.Fragment>
-  //     )
-  //     console.log(buttons)
-  //   }
-  //   return buttons
-  // }
-
   render() {
     const pages = this.props.state[9][0];
     const countPages = this.props.state[9][0]
     let value = 0, name = 1, button = [];
 
-    for (let i = 0; i < countPages; i++) {
-      button[i] = (
-        <label key={ i }>
-          <input
-            className="myradio"
-            onClick={ (e) => this.selectPage(e) }
-            name="page"
-            type="radio"
-            value={ value }/>
-            <span></span>
-            <p>{ name }</p>
-        </label>
-      )
-      value += 5
-      name++
-      console.log(button)
+    if (countPages === 1) button = null
+    if (countPages > 1) {
+      for (let i = 0; i < countPages; i++) {
+        button[i] = (
+          <label key={ i }>
+            <input
+              className="myradio"
+              onClick={ (e) => this.selectPage(e) }
+              name="page"
+              type="radio"
+              value={ value }/>
+              <span></span>
+              <p>{ name }</p>
+          </label>
+        )
+        value += 5
+        name++
+      }
     }
 
     return(
