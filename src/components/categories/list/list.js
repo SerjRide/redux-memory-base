@@ -7,82 +7,12 @@ import {
   findCountById } from '../../../service/question-data.js';
 
 //импорты для доступа к state'у
-import {
-  setCategory,
-  update,
-  editCategory,
-  alert,
-  changeCategoryPage } from '../../actions';
-
+import { setCategory, update, editCategory, alert } from '../../actions';
 import { connect } from 'react-redux';
 
 class List extends Component {
 
-  state = {
-    pageOutput: 0
-  }
-
-  componentDidMount () {
-    this.pageOutput(0);
-  }
-
-  componentDidUpdate () {
-    if (this.props.state[2] !== this.state.pageOutput){
-      this.update();
-    }
-  }
-
-  update = () => {
-    if (this.props.state[2]){
-      let selectPage = this.props.state[9][1]
-      if (selectPage === undefined) selectPage = 0;
-      this.pageOutput(selectPage);
-    }
-    this.setState({
-      pageOutput: this.state.pageOutput + 1
-    })
-  }
-
-
-
-  pageOutput = (start) => {
-
-    const max = 5;
-    let { length } = this.Block.childNodes,
-    pages = 1;
-
-    for (var i = max; i < length; i++) {
-      if (i % max === 0) ++pages
-    }
-
-    for (var i = 0; i < length; i++) {
-      if (i >= start && i < start + max) {
-        console.log(document.getElementById(`category_block_${i}`));
-        document.getElementById(`category_block_${i}`)
-          .style.display = 'flex';
-      } else {
-        console.log(document.getElementById(`category_block_${i}`));
-        document.getElementById(`category_block_${i}`)
-          .style.display = 'none';
-      }
-    }
-
-    this.props.changeCategoryPage([pages, this.props.state[9][1]]);
-    console.log('elements:', length)
-    console.log('pages:', pages)
-
-  };
-
-
-
-
   delCategory = (id) => {
-    const page = this.props.state[9][0]
-    const output = this.props.state[9][1]
-    if (output !== 0 && page === 2){
-      console.log('ok');
-      this.props.changeCategoryPage([page,0]);
-    }
     removeCategory(id)
     this.props.update()
   };
@@ -104,8 +34,7 @@ class List extends Component {
 
   check = (id) => {
     const name = document.getElementById(`rename_${id}`).value
-
-    if (name !== '' && String(name).length < 25) {
+    if (name !== '') {
       rename(findCountById(id),name);
       this.props.update();
       this.props.alert('Category renamed');
@@ -143,7 +72,6 @@ class List extends Component {
   }
 
   render() {
-    console.log('перерисовка');
     const term = this.props.state[7]
     let visibleItems = this.search(QuestionData, term);
     const items = visibleItems.map((item, i) => {
@@ -151,10 +79,7 @@ class List extends Component {
       const { name, id } = item[0];
 
       return(
-        <li
-          key={ id }
-          className="over_li"
-          id={`category_block_${i}`}>
+        <li key={ id } className="over_li">
           <ul className="under_ul">
 
             <li id={`category_${id}`}
@@ -202,10 +127,9 @@ class List extends Component {
     });
 
     return(
-      <div
-        ref={ (e) => { this.Block = e} }>
+      <React.Fragment>
         { items }
-      </div>
+      </React.Fragment>
     );
   }
 };
@@ -217,8 +141,7 @@ const mapDispatchToProps = (dispatch) => {
     onSelectCategory: (id) => dispatch(setCategory(id)),
     update: () => dispatch(update()),
     editCategory: () => dispatch(editCategory()),
-    alert: (text, type) => dispatch(alert(text, type)),
-    changeCategoryPage: (count) => dispatch(changeCategoryPage(count))
+    alert: (text, type) => dispatch(alert(text, type))
   }
 };
 

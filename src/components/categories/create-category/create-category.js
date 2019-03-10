@@ -13,7 +13,7 @@ class CreateCategory extends Component {
 
   check = () => {
     const { value } = this.newCategoryInput
-    if (value !== '' && String(value).length < 25) {
+    if (value !== '') {
       const id = Date.now();
       createCategory(value, id);
       this.props.update();
@@ -25,12 +25,7 @@ class CreateCategory extends Component {
         this.newCategoryInput.className = 'form-control';
       }, 1800);
       console.log(this.newCategoryInput.className);
-      if (String(value).length > 25) {
-        this.props.alert('Category name is too long', false);
-      } else {
-        this.props.alert('The category must have a name', false);
-      }
-
+      this.props.alert('The category must have a name', false);
     }
   };
 

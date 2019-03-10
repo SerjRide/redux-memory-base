@@ -8,7 +8,7 @@ import {
   findCountById,
   findId } from '../../../service/question-data.js';
 
-import { setQuestion, hidePlayer, editQuestion, alert } from '../../actions';
+import { setQuestion, hidePlayer, editQuestion } from '../../actions';
 
 import './player.css';
 
@@ -20,7 +20,6 @@ class Player extends Component {
     const currentQuestion = findCountById(this.props.state[1], false);
     const length = QuestionData[currentCategory].length - 1
     const { question } = QuestionData[currentCategory][currentQuestion];
-    this.answerArea.className = 'you-answer'
     let count;
 
     if (action === '+') {
@@ -51,16 +50,6 @@ class Player extends Component {
     const currentQuestion = findCountById(this.props.state[1], false);
     const { answer } = QuestionData[currentCategory][currentQuestion];
     this.answerArea.value = answer;
-    this.fastCheck();
-  }
-
-  fastCheck = () => {
-    const currentCategory = findCountById(this.props.state[0]);
-    const currentQuestion = findCountById(this.props.state[1], false);
-    const { answer } = QuestionData[currentCategory][currentQuestion];
-    if (this.answerArea.value === answer) {
-      this.answerArea.className = 'you-answer success'
-    } else this.answerArea.className = 'you-answer'
   }
 
   check = () => {
@@ -69,14 +58,7 @@ class Player extends Component {
     const { answer } = QuestionData[currentCategory][currentQuestion];
     if (this.answerArea.value === answer){
       this.changeQuestion('+');
-      this.props.alert('Answer is correct')
-    } else this.pulseTextarea(this.answerArea)
-  };
-
-  pulseTextarea = (textarea) => {
-    textarea.className = 'you-answer danger';
-    setTimeout(() => { textarea.className = 'you-answer' }, 1800);
-    this.props.alert('Answer is not correct', false)
+    } else alert('Ответ не верный')
   };
 
   deleteQuestion = (currentCategory, currentQuestion) => {
@@ -92,13 +74,6 @@ class Player extends Component {
       this.props.hidePlayer()
     } else if (currentQuestion === length - 1) {
       this.props.setQuestion(findId(currentCategory, currentQuestion - 1))
-    }
-  }
-
-  onEnter = (e) => {
-    if (e.which === 13) {
-      e.preventDefault();
-      this.check();
     }
   }
 
@@ -203,11 +178,9 @@ class Player extends Component {
           ref={(e) => { this.questionArea = e }}
           disabled/>
         <textarea
-          onChange={ this.fastCheck }
-          className="you-answer"
           ref={(e) => { this.answerArea = e }}
           id="answer"
-          onKeyDown={ (e) => this.onEnter(e) }/>
+          onKeyDown={ () => console.log('Apply') }/>
         <button
           type="button" onClick={ this.check }
           className="btn btn-success btn-sm btn-block">
@@ -225,8 +198,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setQuestion: (id) => dispatch(setQuestion(id)),
     hidePlayer: () => dispatch(hidePlayer()),
-    editQuestion: (id) => dispatch(editQuestion(id)),
-    alert: (text,type) => dispatch(alert(text,type))
+    editQuestion: (id) => dispatch(editQuestion(id))
   }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Player);
