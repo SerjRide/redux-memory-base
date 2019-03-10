@@ -71,9 +71,25 @@ class List extends Component {
     this.props.update();
   }
 
+  pageOutput = (items) => {
+
+    // const test = items.filter((item, i) => {
+    //   if (i >= 5) return null
+    //   return item
+    // })
+
+    // console.log(test);
+
+    return items.filter((item, i) => {
+      if (i >= 5) return null
+      return item
+    });
+  }
+
   render() {
     const term = this.props.state[7]
-    let visibleItems = this.search(QuestionData, term);
+    let searchingItems = this.search(QuestionData, term);
+    let visibleItems = this.pageOutput(searchingItems);
     const items = visibleItems.map((item, i) => {
 
       const { name, id } = item[0];

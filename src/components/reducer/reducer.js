@@ -8,7 +8,8 @@ const initialState = [
   null, // режим алерта
   true, // тип алерта
   '', // Строка поиск по Категориям
-  '' // Строка поиска по Вопросам
+  '', // Строка поиска по Вопросам
+  0 // текущая страница списка категорий
 
 ]
 
@@ -26,7 +27,8 @@ const reducer = (state = initialState, action) => {
         state[5],
         state[6],
         state[7],
-        ''
+        '',
+        state[9]
       ];
 
     case 'SET_CATEGORY':
@@ -39,7 +41,8 @@ const reducer = (state = initialState, action) => {
         state[5],
         state[6],
         state[7],
-        ''
+        '',
+        state[9]
       ];
 
     case 'SET_QUESTION':
@@ -52,7 +55,8 @@ const reducer = (state = initialState, action) => {
         state[5],
         state[6],
         state[7],
-        state[8]
+        state[8],
+        state[9]
       ];
 
     case 'HIDE_PLAYER':
@@ -65,7 +69,8 @@ const reducer = (state = initialState, action) => {
         state[5],
         state[6],
         state[7],
-        state[8]
+        state[8],
+        state[9]
       ];
 
     case 'ADD_NEW_QUESTION':
@@ -78,7 +83,8 @@ const reducer = (state = initialState, action) => {
         state[5],
         state[6],
         state[7],
-        state[8]
+        state[8],
+        state[9]
       ];
 
     case 'EDIT_QUESTION':
@@ -91,7 +97,8 @@ const reducer = (state = initialState, action) => {
         state[5],
         state[6],
         state[7],
-        state[8]
+        state[8],
+        state[9]
       ];
 
     case 'ALERT':
@@ -104,7 +111,8 @@ const reducer = (state = initialState, action) => {
         action.payload[0],
         action.payload[1],
         state[7],
-        state[8]
+        state[8],
+        state[9]
       ];
 
     case 'CATEGORY_SEARCH':
@@ -117,7 +125,8 @@ const reducer = (state = initialState, action) => {
         state[5],
         state[6],
         action.payload,
-        state[8]
+        state[8],
+        state[9]
       ];
 
     case 'QUESTION_SEARCH':
@@ -130,6 +139,21 @@ const reducer = (state = initialState, action) => {
         state[5],
         state[6],
         state[7],
+        action.payload,
+        state[9]
+      ];
+
+    case 'CHANGE_CATEGORY_PAGE':
+      return state = [
+        state[0] ,
+        state[1],
+        state[2],
+        state[3],
+        state[4],
+        state[5],
+        state[6],
+        state[7],
+        state[8],
         action.payload
       ];
 

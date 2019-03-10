@@ -19,7 +19,7 @@ const Questions = (props) => {
     <React.Fragment>
       <Head />
       <List />
-      <Footer />
+  
     </React.Fragment>
   )
 
