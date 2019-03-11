@@ -93,14 +93,6 @@ class List extends Component {
     const currentCategory = findCountById(this.props.state[0]);
     let content;
 
-    if (!currentCategory) {
-      content = (
-        <li className="list-group-item item">
-          <p className="empty">Select a category of questions</p>
-        </li>
-      )
-    };
-
     if (currentCategory !== null) {
 
       const term = this.props.state[8]
@@ -137,16 +129,6 @@ class List extends Component {
 
       };
 
-      if (this.props.state[0] === null) {
-        content = (
-          <li className="list-group-item item">
-            <p className="empty">
-              Select a category of questions
-            </p>
-          </li>
-        )
-      }
-
       if (this.props.state[0] !== null) {
         if (QuestionData[currentCategory].length === 1)
         content = (
@@ -168,8 +150,16 @@ class List extends Component {
   }
 
   render () {
-    const content = this.props.state[11][0]
-    // const content = <div></div>
+    let content = this.props.state[11][0]
+
+    if (this.props.state[0] === null) {
+      content = (
+        <li className="list-group-item item">
+          <p className="empty">Select a category of questions</p>
+        </li>
+      )
+    };
+
     return (
       <React.Fragment>
        { content }
