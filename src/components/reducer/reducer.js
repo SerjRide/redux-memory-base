@@ -9,7 +9,8 @@ const initialState = [
   true, // тип алерта
   '', // Строка поиск по Категориям
   '', // Строка поиска по Вопросам
-  [0,1] // текущая страница списка категорий
+  [0,1], // текущая страница списка категорий
+  [] // отрендеренный список категорий
 
 ]
 
@@ -28,7 +29,8 @@ const reducer = (state = initialState, action) => {
         state[6],
         state[7],
         '',
-        state[9]
+        state[9],
+        state[10]
       ];
 
     case 'SET_CATEGORY':
@@ -42,7 +44,8 @@ const reducer = (state = initialState, action) => {
         state[6],
         state[7],
         '',
-        state[9]
+        state[9],
+        state[10]
       ];
 
     case 'SET_QUESTION':
@@ -56,7 +59,8 @@ const reducer = (state = initialState, action) => {
         state[6],
         state[7],
         state[8],
-        state[9]
+        state[9],
+        state[10]
       ];
 
     case 'HIDE_PLAYER':
@@ -70,7 +74,8 @@ const reducer = (state = initialState, action) => {
         state[6],
         state[7],
         state[8],
-        state[9]
+        state[9],
+        state[10]
       ];
 
     case 'ADD_NEW_QUESTION':
@@ -84,7 +89,8 @@ const reducer = (state = initialState, action) => {
         state[6],
         state[7],
         state[8],
-        state[9]
+        state[9],
+        state[10]
       ];
 
     case 'EDIT_QUESTION':
@@ -98,7 +104,8 @@ const reducer = (state = initialState, action) => {
         state[6],
         state[7],
         state[8],
-        state[9]
+        state[9],
+        state[10]
       ];
 
     case 'ALERT':
@@ -112,7 +119,8 @@ const reducer = (state = initialState, action) => {
         action.payload[1],
         state[7],
         state[8],
-        state[9]
+        state[9],
+        state[10]
       ];
 
     case 'CATEGORY_SEARCH':
@@ -126,7 +134,8 @@ const reducer = (state = initialState, action) => {
         state[6],
         action.payload,
         state[8],
-        state[9]
+        state[9],
+        state[10]
       ];
 
     case 'QUESTION_SEARCH':
@@ -140,7 +149,8 @@ const reducer = (state = initialState, action) => {
         state[6],
         state[7],
         action.payload,
-        state[9]
+        state[9],
+        state[10]
       ];
 
     case 'CHANGE_CATEGORY_PAGE':
@@ -154,6 +164,22 @@ const reducer = (state = initialState, action) => {
         state[6],
         state[7],
         state[8],
+        action.payload,
+        state[10]
+      ];
+
+    case 'CATEGORY_RENDER_LIST':
+      return state = [
+        state[0] ,
+        state[1],
+        state[2],
+        state[3],
+        state[4],
+        state[5],
+        state[6],
+        state[7],
+        state[8],
+        state[9],
         action.payload
       ];
 

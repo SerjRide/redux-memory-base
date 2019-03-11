@@ -10,7 +10,8 @@ import {
   alert,
   categorySearch,
   questionSearch,
-  changeCategoryPage
+  changeCategoryPage,
+  categoryList
 
 } from './actions';
 
@@ -26,6 +27,7 @@ export {
   alert,
   categorySearch,
   questionSearch,
-  changeCategoryPage
+  changeCategoryPage,
+  categoryList
 
 }

@@ -12,23 +12,44 @@ import {
     update,
     editCategory,
     alert,
-    changeCategoryPage } from '../../actions';
+    changeCategoryPage,
+    categoryList } from '../../actions';
 
 import { connect } from 'react-redux';
 
 class List extends Component {
 
+  state = {
+    renderList: 0
+  }
+
   componentDidMount() {
+    this.renderList();
     this.synch();
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.renderList !== this.props.state[2]){
+      this.update();
+    }
+  }
+
+  update = () => {
+    this.synch(this.props.state[10][1]);
+    this.renderList();
+    this.setState({
+      renderList: this.state.renderList + 1
+    })
+  }
+
   delCategory = (id) => {
-    removeCategory(id)
-    this.synch();
+    removeCategory(id);
+    this.synch(this.props.state[10][1]);
     this.props.update();
   };
 
   synch = (obj = QuestionData) => {
+    this.renderList();
     const { length } = obj
     const totalPages = Math.ceil(length / 5);
     const active = this.props.state[9][0]
@@ -96,7 +117,7 @@ class List extends Component {
     });
   }
 
-  render() {
+  renderList = () => {
     const term = this.props.state[7]
     let searchingItems = this.search(QuestionData, term);
     let visibleItems = this.pageOutput(searchingItems);
@@ -152,6 +173,15 @@ class List extends Component {
       )
     });
 
+    this.props.categoryList([items, searchingItems]);
+
+  }
+
+  render() {
+
+    const items = this.props.state[10][0]
+    console.log('renderList', this.state.renderList)
+
     return(
       <React.Fragment>
         { items }
@@ -168,7 +198,8 @@ const mapDispatchToProps = (dispatch) => {
     update: () => dispatch(update()),
     editCategory: () => dispatch(editCategory()),
     alert: (text, type) => dispatch(alert(text, type)),
-    changeCategoryPage: (num) => dispatch(changeCategoryPage(num))
+    changeCategoryPage: (num) => dispatch(changeCategoryPage(num)),
+    categoryList: (items) => dispatch(categoryList(items))
   }
 };
 

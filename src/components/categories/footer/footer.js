@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { changeCategoryPage } from '../../actions';
+import { changeCategoryPage, update } from '../../actions';
 
 import './footer.css'
 
@@ -39,6 +39,7 @@ class Footer extends Component {
   }
 
   buttonsLogic = (action) => {
+    this.props.update();
     const active = this.props.state[9][0];
     const next = document.getElementById('cat-page-next');
     const prev = document.getElementById('cat-page-prev');
@@ -110,7 +111,8 @@ const mapStateToProps = (state) => ({ state: state })
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    changeCategoryPage: (num) => dispatch(changeCategoryPage(num))
+    changeCategoryPage: (num) => dispatch(changeCategoryPage(num)),
+    update: () => dispatch(update())
   }
 };
 

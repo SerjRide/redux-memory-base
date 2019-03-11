@@ -14,12 +14,21 @@ class CreateCategory extends Component {
   check = () => {
     const { value } = this.newCategoryInput
     if (value !== '') {
-      const id = Date.now();
-      createCategory(value, id);
-      this.props.update();
-      this.synch();
-      this.newCategoryInput.value = '';
-      this.props.alert('Category created');
+      if (QuestionData.length > 44){
+        this.newCategoryInput.className = 'form-control danger';
+        setTimeout(() => {
+          this.newCategoryInput.className = 'form-control';
+        }, 1800);
+        this.props.alert('Maximum number of categories exceeded', false);
+      } else {
+        console.log(QuestionData.length);
+        const id = Date.now();
+        createCategory(value, id);
+        this.props.update();
+        this.synch();
+        this.newCategoryInput.value = '';
+        this.props.alert('Category created');
+      }
     } else {
       this.newCategoryInput.className = 'form-control danger';
       setTimeout(() => {
@@ -30,11 +39,12 @@ class CreateCategory extends Component {
     }
   };
 
-  synch = (obj = QuestionData) => {
-    const { length } = obj
-    const totalPages = Math.ceil(length / 5);
+  synch = () => {
+    const obj = this.props.state[10][1].length
+    const totalPages = Math.ceil(obj / 5);
     const active = this.props.state[9][0]
     this.props.changeCategoryPage([active, totalPages])
+    this.props.update();
   }
 
   onEnter = (e) => {

@@ -27,6 +27,9 @@ const questionSearch = (text) => ({ type: 'QUESTION_SEARCH',
 const changeCategoryPage = (num) => ({ type: 'CHANGE_CATEGORY_PAGE',
                                         payload: num })
 
+const categoryList = (items) => ({ type: 'CATEGORY_RENDER_LIST',
+                                        payload: items })
+
 export {
   setCategory,
   setQuestion,
@@ -38,5 +41,6 @@ export {
   alert,
   categorySearch,
   questionSearch,
-  changeCategoryPage
+  changeCategoryPage,
+  categoryList
 }
