@@ -68,7 +68,9 @@ class List extends Component {
     if (term.length === 0) return items;
 
     return items.filter((item) => {
-      return item[0].name.indexOf(term) > -1;
+      return item[0].name
+              .toLowerCase()
+              .indexOf(term.toLowerCase()) > -1;
     })
   }
 
@@ -78,6 +80,7 @@ class List extends Component {
     const items = visibleItems.map((item, i) => {
 
       const { name, id } = item[0];
+      const { length } = visibleItems[i];
 
       return(
         <li key={ id } className="over_li">
@@ -86,7 +89,8 @@ class List extends Component {
             <li id={`category_${id}`}
               className="list-group-item item">
               <p onClick={ () => this.props.onSelectCategory(id) }>
-                { name }
+                { name }<span className="badge badge-success">
+                {length - 1}</span>
               </p>
               <button
                  type="button" onClick={ () => this.startEdit(id) }

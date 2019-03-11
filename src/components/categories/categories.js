@@ -5,7 +5,7 @@ import './categories.css';
 import Head from './head';
 import CreateCategory from './create-category';
 import List from './list';
-import Footer from './footer';
+// import Footer from './footer';
 
 const Categories = () => {
 
@@ -14,7 +14,6 @@ const Categories = () => {
       <Head />
       <CreateCategory />
       <List />
-      <Footer />
     </ul>
   );
 

@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+
+import {
+  QuestionData,
+  findCountById } from '../../../service/question-data.js';
+
 import { addNewQuestion, questionSearch } from '../../actions';
 
 class Head extends Component {
@@ -9,7 +14,8 @@ class Head extends Component {
   }
 
   render() {
-
+    const categoryCount = findCountById(this.props.state[0])
+    const categoryName = QuestionData[categoryCount][0].name
     let button;
     if (this.props.state[0] === null) {
       button = null;
@@ -34,7 +40,7 @@ class Head extends Component {
 
     return (
       <li className="list-group-item header">
-        <p>Select a Question:</p>
+        <p>{ categoryName }</p>
         { button }
       </li>
     )

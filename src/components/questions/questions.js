@@ -5,21 +5,23 @@ import './questions.css';
 
 import Head from './head';
 import List from './list';
-import Footer from './footer';
+// import Footer from './footer';
 import Player from './player';
 import AddQuestion from './add-question';
 import Edit from './edit';
 
 const Questions = (props) => {
+  const currentCategory = props.state[0]
   const currentQuestion = props.state[1]
   const addMenu = props.state[3]
   const editMenu = props.state[4]
 
+  let head = currentCategory ? <Head /> : null
+
   let content = (
     <React.Fragment>
-      <Head />
+      { head }
       <List />
-      <Footer />
     </React.Fragment>
   )
 
