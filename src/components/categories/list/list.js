@@ -128,10 +128,12 @@ class List extends Component {
 
   selectCategory = (id) => {
     this.props.onSelectCategory(id)
+    const currentCategory = findCountById(id)
     const obj = this.props.state[11][0];
     const nextUpdateCount = this.props.state[11][1] + 1;
     const activePage = this.props.state[11][2]
-    const totalPage = this.props.state[11][3]
+    const { length } = QuestionData[currentCategory]
+    const totalPage = Math.ceil((length - 1) / 6);
     this.props.questionList([obj, nextUpdateCount, 0, totalPage])
   }
 

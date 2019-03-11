@@ -20,11 +20,6 @@ class List extends Component {
     update: 0
   }
 
-  componentDidMount() {
-    this.renderList();
-    setTimeout( () => this.synch() );
-  }
-
   componentDidUpdate() {
     if (this.state.update !== this.props.state[11][1]) {
       this.update();
@@ -36,7 +31,6 @@ class List extends Component {
     this.setState({
       update: this.state.update + 1
     })
-    // setTimeout( () => this.synch() );
   }
 
   delQuestion = (id) => {
@@ -49,7 +43,6 @@ class List extends Component {
     setTimeout( () => this.synch() );
     const totalPage = this.props.state[11][3]
     this.props.questionList([obj, nextUpdateCount, activePage, totalPage])
-    // console.log(obj.length);
   }
 
   search = (items, term) => {
