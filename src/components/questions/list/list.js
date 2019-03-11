@@ -15,8 +15,6 @@ import { connect } from 'react-redux';
 
 const List = (props) => {
 
-  findId()
-
   const currentCategory = findCountById(props.state[0]);
   let content;
 
@@ -44,8 +42,6 @@ const List = (props) => {
                                 .indexOf(term.toLowerCase()) > -1;
         return null
       })
-
-      props.setCategory(currentCategory);
     }
 
     const term = props.state[8]
@@ -53,21 +49,21 @@ const List = (props) => {
 
     if (QuestionData[currentCategory] !== undefined) {
       content = visibleItems.map((item, i) => {
+
+        let { question } = visibleItems[i]
+
         if (visibleItems[i].question === undefined) return null
 
-          // <li className="list-group-item item">
-          //   <p onClick={ () => props.addNewQuestion() }
-          //     className="empty">+ Add Question
-          //   </p>
-          // </li>
-
+        if (String(visibleItems[i].question).length > 30) {
+          question = String(visibleItems[i].question).substring(0,30) + '...';
+        }
 
         const { id } = item
         return (
           <li key={ id }
             className="list-group-item item">
             <p onClick={ () => props.onSelectQuestion(id) }>
-              { visibleItems[i].question }
+              { question }
             </p>
             <button
                type="button" onClick={ () => props.editQuestion(id) }

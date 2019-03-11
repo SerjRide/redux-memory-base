@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import {
-  QuestionData,
-  createCategory } from '../../../service/question-data.js';
+import { createCategory } from '../../../service/question-data.js';
 
 import { update, alert } from '../../actions';
 
@@ -13,7 +11,7 @@ class CreateCategory extends Component {
 
   check = () => {
     const { value } = this.newCategoryInput
-    if (value !== '') {
+    if (value !== '' && String(value).length < 25) {
       const id = Date.now();
       createCategory(value, id);
       this.props.update();
@@ -25,7 +23,12 @@ class CreateCategory extends Component {
         this.newCategoryInput.className = 'form-control';
       }, 1800);
       console.log(this.newCategoryInput.className);
-      this.props.alert('The category must have a name', false);
+      if (String(value).length > 25) {
+        this.props.alert('Category name is too long', false);
+      } else {
+        this.props.alert('The category must have a name', false);
+      }
+
     }
   };
 

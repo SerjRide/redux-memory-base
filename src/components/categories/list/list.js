@@ -67,8 +67,6 @@ class List extends Component {
     return items.filter((item) => {
       return item[0].name.indexOf(term) > -1;
     })
-
-    this.props.update();
   }
 
   render() {
