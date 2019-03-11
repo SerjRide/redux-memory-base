@@ -13,8 +13,11 @@ import { connect } from 'react-redux';
 class List extends Component {
 
   delCategory = (id) => {
-    removeCategory(id)
-    this.props.update()
+    const text = 'Are you sure?'
+    if (window.confirm(text)) {
+      removeCategory(id)
+      this.props.update()
+    }
   };
 
   startEdit = (id) => {

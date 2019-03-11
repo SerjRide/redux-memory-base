@@ -19,8 +19,11 @@ const List = (props) => {
   let content;
 
   const delQuestion = (id) => {
-    removeQuestion(currentCategory, findCountById(id, false))
-    props.setCategory(findId(currentCategory))
+    const text = 'Are you sure?';
+    if (window.confirm(text)) {
+      removeQuestion(currentCategory, findCountById(id, false))
+      props.setCategory(findId(currentCategory))
+    }
   }
 
   if (!currentCategory) {

@@ -81,18 +81,22 @@ class Player extends Component {
 
   deleteQuestion = (currentCategory, currentQuestion) => {
     const { length } = QuestionData[currentCategory];
+    const text = 'Are you sure?';
 
-    removeQuestion(currentCategory, currentQuestion);
+    if (window.confirm(text)) {
+      removeQuestion(currentCategory, currentQuestion);
 
-    if (length !== 2 || currentQuestion !== length - 1) {
-      this.props.setQuestion(findId(currentCategory, currentQuestion))
+      if (length !== 2 || currentQuestion !== length - 1) {
+        this.props.setQuestion(findId(currentCategory, currentQuestion))
+      }
+
+      if (length === 2) {
+        this.props.hidePlayer()
+      } else if (currentQuestion === length - 1) {
+        this.props.setQuestion(findId(currentCategory, currentQuestion - 1))
+      }
     }
 
-    if (length === 2) {
-      this.props.hidePlayer()
-    } else if (currentQuestion === length - 1) {
-      this.props.setQuestion(findId(currentCategory, currentQuestion - 1))
-    }
   }
 
   onEnter = (e) => {
