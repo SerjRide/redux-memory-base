@@ -45,14 +45,16 @@ class List extends Component {
 
   delCategory = (id) => {
     removeCategory(id);
-    this.synch(this.props.state[10][1]);
+    const countOfPages = this.props.state[10][1]
     this.props.update();
-
     const obj = this.props.state[11][0];
     const nextUpdateCount = this.props.state[11][1] + 1;
     const activePage = this.props.state[11][2]
     const totalPage = this.props.state[11][3]
-    this.props.questionList([obj, nextUpdateCount, activePage, totalPage])
+    this.props.changeCategoryPage([0, countOfPages])
+    this.props.questionList([obj, nextUpdateCount, 0, totalPage])
+    setTimeout(() => this.synch(countOfPages));
+    console.log(this.props.state[10][1].length)
   };
 
   synch = (obj = QuestionData) => {
@@ -130,7 +132,7 @@ class List extends Component {
     const nextUpdateCount = this.props.state[11][1] + 1;
     const activePage = this.props.state[11][2]
     const totalPage = this.props.state[11][3]
-    this.props.questionList([obj, nextUpdateCount, activePage, totalPage])
+    this.props.questionList([obj, nextUpdateCount, 0, totalPage])
   }
 
   renderList = () => {

@@ -36,6 +36,7 @@ class List extends Component {
     this.setState({
       update: this.state.update + 1
     })
+    // setTimeout( () => this.synch() );
   }
 
   delQuestion = (id) => {
@@ -44,11 +45,11 @@ class List extends Component {
     this.props.setCategory(findId(currentCategory))
     const obj = this.props.state[11][0]
     const nextUpdateCount = this.props.state[11][1] + 1
-    const activePage = this.props.state[11][2]
-    // при удалении вопросов, они не исчезают из списка
+    const activePage = 0
     setTimeout( () => this.synch() );
     const totalPage = this.props.state[11][3]
     this.props.questionList([obj, nextUpdateCount, activePage, totalPage])
+    // console.log(obj.length);
   }
 
   search = (items, term) => {
@@ -63,14 +64,12 @@ class List extends Component {
   }
 
   synch = () => {
-    // создает одно лишнее действие
-    // this.renderList();
     const obj = QuestionData[findCountById(this.props.state[0])]
     const { length } = obj
-    const totalPages = Math.ceil((length - 1) / 6);
     const currentObj = this.props.state[11][0];
-    const active = this.props.state[11][2];
     const update = this.props.state[11][1];
+    const active = this.props.state[11][2];
+    const totalPages = Math.ceil((length - 1) / 6);
     this.props.questionList([currentObj, update, active, totalPages])
   }
 

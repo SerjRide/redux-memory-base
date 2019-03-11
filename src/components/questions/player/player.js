@@ -8,7 +8,11 @@ import {
   findCountById,
   findId } from '../../../service/question-data.js';
 
-import { setQuestion, hidePlayer, editQuestion } from '../../actions';
+import {
+    setQuestion,
+    hidePlayer,
+    editQuestion,
+    questionList } from '../../actions';
 
 import './player.css';
 
@@ -65,6 +69,11 @@ class Player extends Component {
     const { length } = QuestionData[currentCategory];
 
     removeQuestion(currentCategory, currentQuestion);
+    const content = this.props.state[11][0];
+    const update = this.props.state[11][1];
+    const activePage = 0;
+    const totalPage = this.props.state[11][3];
+    this.props.questionList([content, update, activePage, totalPage])
 
     if (length !== 2 || currentQuestion !== length - 1) {
       this.props.setQuestion(findId(currentCategory, currentQuestion))
@@ -198,7 +207,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setQuestion: (id) => dispatch(setQuestion(id)),
     hidePlayer: () => dispatch(hidePlayer()),
-    editQuestion: (id) => dispatch(editQuestion(id))
+    editQuestion: (id) => dispatch(editQuestion(id)),
+    questionList: (content) => dispatch(questionList(content))
   }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Player);
