@@ -47,7 +47,7 @@ class List extends Component {
     const activePage = this.props.state[11][2]
     const totalPage = this.props.state[11][3]
     this.props.questionList([obj, nextUpdateCount, activePage, totalPage])
-    // this.renderList();
+    // this.synch();
   }
 
   search = (items, term) => {
