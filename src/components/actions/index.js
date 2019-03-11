@@ -11,7 +11,8 @@ import {
   categorySearch,
   questionSearch,
   changeCategoryPage,
-  categoryList
+  categoryList,
+  questionList
 
 } from './actions';
 
@@ -28,6 +29,7 @@ export {
   categorySearch,
   questionSearch,
   changeCategoryPage,
-  categoryList
+  categoryList,
+  questionList
 
 }

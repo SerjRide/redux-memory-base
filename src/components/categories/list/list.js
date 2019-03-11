@@ -13,7 +13,8 @@ import {
     editCategory,
     alert,
     changeCategoryPage,
-    categoryList } from '../../actions';
+    categoryList,
+    questionList } from '../../actions';
 
 import { connect } from 'react-redux';
 
@@ -46,6 +47,12 @@ class List extends Component {
     removeCategory(id);
     this.synch(this.props.state[10][1]);
     this.props.update();
+
+    const obj = this.props.state[11][0];
+    const nextUpdateCount = this.props.state[11][1] + 1;
+    const activePage = this.props.state[11][2]
+    const totalPage = this.props.state[11][3]
+    this.props.questionList([obj, nextUpdateCount, activePage, totalPage])
   };
 
   synch = (obj = QuestionData) => {
@@ -117,6 +124,15 @@ class List extends Component {
     });
   }
 
+  selectCategory = (id) => {
+    this.props.onSelectCategory(id)
+    const obj = this.props.state[11][0];
+    const nextUpdateCount = this.props.state[11][1] + 1;
+    const activePage = this.props.state[11][2]
+    const totalPage = this.props.state[11][3]
+    this.props.questionList([obj, nextUpdateCount, activePage, totalPage])
+  }
+
   renderList = () => {
     const term = this.props.state[7]
     let searchingItems = this.search(QuestionData, term);
@@ -131,7 +147,7 @@ class List extends Component {
 
             <li id={`category_${id}`}
               className="list-group-item item">
-              <p onClick={ () => this.props.onSelectCategory(id) }>
+              <p onClick={ () => this.selectCategory(id) }>
                 { name }
               </p>
               <button
@@ -180,7 +196,6 @@ class List extends Component {
   render() {
 
     const items = this.props.state[10][0]
-    console.log('renderList', this.state.renderList)
 
     return(
       <React.Fragment>
@@ -199,7 +214,8 @@ const mapDispatchToProps = (dispatch) => {
     editCategory: () => dispatch(editCategory()),
     alert: (text, type) => dispatch(alert(text, type)),
     changeCategoryPage: (num) => dispatch(changeCategoryPage(num)),
-    categoryList: (items) => dispatch(categoryList(items))
+    categoryList: (items) => dispatch(categoryList(items)),
+    questionList: (content) => dispatch(questionList(content))
   }
 };
 

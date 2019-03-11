@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addNewQuestion, questionSearch } from '../../actions';
+import { addNewQuestion, questionSearch, questionList } from '../../actions';
 
 class Head extends Component {
 
   search = (e) => {
-    this.props.questionSearch(e.target.value)
+    this.props.questionSearch(e.target.value);
+    const obj = this.props.state[11][0]
+    const nextUpdateCount = this.props.state[11][1] + 1
+    const activePage = this.props.state[11][2]
+    const totalPage = this.props.state[11][3]
+    this.props.questionList([obj, nextUpdateCount, activePage, totalPage])
   }
 
   render() {
@@ -45,7 +50,8 @@ const mapStateToProps = (state) => ({ state: state })
 const mapDispatchToProps = (dispatch) => {
   return{
     addNewQuestion: () => dispatch(addNewQuestion()),
-    questionSearch: (text) => dispatch(questionSearch(text))
+    questionSearch: (text) => dispatch(questionSearch(text)),
+    questionList: (content) => dispatch(questionList(content))
   }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Head);

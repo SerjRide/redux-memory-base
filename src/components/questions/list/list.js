@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   QuestionData,
   removeQuestion,
@@ -9,108 +9,173 @@ import {
   setCategory,
   setQuestion,
   editQuestion,
-  addNewQuestion } from '../../actions';
+  addNewQuestion,
+  questionList } from '../../actions';
 
 import { connect } from 'react-redux';
 
-const List = (props) => {
+class List extends Component {
 
-  findId()
-
-  const currentCategory = findCountById(props.state[0]);
-  let content;
-
-  const delQuestion = (id) => {
-    removeQuestion(currentCategory, findCountById(id, false))
-    props.setCategory(findId(currentCategory))
+  state = {
+    update: 0
   }
 
-  if (!currentCategory) {
-    content = (
-      <li className="list-group-item item">
-        <p className="empty">Select a category of questions</p>
-      </li>
-    )
-  };
+  componentDidMount() {
+    this.renderList();
+    setTimeout( () => this.synch() );
+  }
 
-  if (currentCategory !== null) {
-
-    const search = (items, term) => {
-      if (term.length === 0) return items;
-
-      return items.filter((item, i) => {
-        if (i !== 0) return item.question
-                                .toLowerCase()
-                                .indexOf(term.toLowerCase()) > -1;
-        return null
-      })
+  componentDidUpdate() {
+    if (this.state.update !== this.props.state[11][1]) {
+      this.update();
     }
+  }
 
-    const term = props.state[8]
-    let visibleItems = search(QuestionData[currentCategory], term);
+  update = () => {
+    this.renderList()
+    this.setState({
+      update: this.state.update + 1
+    })
+  }
 
-    if (QuestionData[currentCategory] !== undefined) {
-      content = visibleItems.map((item, i) => {
-        if (visibleItems[i].question === undefined) return null
+  delQuestion = (id) => {
+    const currentCategory = findCountById(this.props.state[0]);
+    removeQuestion(currentCategory, findCountById(id, false))
+    this.props.setCategory(findId(currentCategory))
+    const obj = this.props.state[11][0]
+    const nextUpdateCount = this.props.state[11][1] + 1
+    const activePage = this.props.state[11][2]
+    const totalPage = this.props.state[11][3]
+    this.props.questionList([obj, nextUpdateCount, activePage, totalPage])
+    // this.renderList();
+  }
 
-          // <li className="list-group-item item">
-          //   <p onClick={ () => props.addNewQuestion() }
-          //     className="empty">+ Add Question
-          //   </p>
-          // </li>
+  search = (items, term) => {
+    if (term.length === 0) return items;
 
+    return items.filter((item, i) => {
+      if (i !== 0) return item.question
+                              .toLowerCase()
+                              .indexOf(term.toLowerCase()) > -1;
+      return null
+    })
+  }
 
-        const { id } = item
-        return (
-          <li key={ id }
-            className="list-group-item item">
-            <p onClick={ () => props.onSelectQuestion(id) }>
-              { visibleItems[i].question }
-            </p>
-            <button
-               type="button" onClick={ () => props.editQuestion(id) }
-               data-title="Edit Question"
-               className="btn btn-secondary list">
-               <i className="far fa-edit"></i>
-            </button>
-            <button
-              type="button" onClick={ () => delQuestion(id) }
-              data-title="Delete Question"
-              className="btn btn-secondary list">
-              <i className="far fa-trash-alt"></i>
-            </button>
-          </li>
-        )
-      })
+  synch = () => {
+    this.renderList();
+    const obj = QuestionData[findCountById(this.props.state[0])]
+    const { length } = obj
+    const totalPages = Math.ceil((length - 1) / 5);
+    const currentObj = this.props.state[11][0];
+    const active = this.props.state[11][2];
+    const update = this.props.state[11][1];
+    this.props.questionList([currentObj, update, active, totalPages])
+  }
 
+  pageOutput = (items) => {
+    const currentPage = this.props.state[11][2]
+    const count = currentPage === 0 ? currentPage * 6 : currentPage * 5
+    if (currentPage === 0) {
+      return items.filter((item, i) => {
+        if (i < count || i >= count + 6) return null
+        return item
+      });
+    } else {
+      return items.filter((item, i) => {
+        if (i <= count || i > count + 5) return null
+        return item
+      });
+    }
+  }
+
+  renderList = () => {
+    const currentCategory = findCountById(this.props.state[0]);
+    let content;
+
+    if (!currentCategory) {
+      content = (
+        <li className="list-group-item item">
+          <p className="empty">Select a category of questions</p>
+        </li>
+      )
     };
 
-    if (props.state[0] === null) {
-      content = (
-        <li className="list-group-item item">
-          <p className="empty">
-            Select a category of questions
-          </p>
-        </li>
-      )
-    }
+    if (currentCategory !== null) {
 
-    if (props.state[0] !== null) {
-      if (QuestionData[currentCategory].length === 1)
-      content = (
-        <li className="list-group-item item">
-          <p onClick={ () => props.addNewQuestion() }
-            className="empty">+ Add Question
-          </p>
-        </li>
-      )
+      const term = this.props.state[8]
+      let searchingItems = this.search(QuestionData[currentCategory], term);
+        let visibleItems = this.pageOutput(searchingItems);
+
+      if (QuestionData[currentCategory] !== undefined) {
+
+        content = visibleItems.map((item, i) => {
+          if (visibleItems[i].question === undefined) return null
+
+          const { id } = item
+          return (
+            <li key={ id }
+              className="list-group-item item">
+              <p onClick={ () => this.props.onSelectQuestion(id) }>
+                { visibleItems[i].question }
+              </p>
+              <button
+                 type="button" onClick={ () => this.props.editQuestion(id) }
+                 data-title="Edit Question"
+                 className="btn btn-secondary list">
+                 <i className="far fa-edit"></i>
+              </button>
+              <button
+                type="button" onClick={ () => this.delQuestion(id) }
+                data-title="Delete Question"
+                className="btn btn-secondary list">
+                <i className="far fa-trash-alt"></i>
+              </button>
+            </li>
+          )
+        })
+
+      };
+
+      if (this.props.state[0] === null) {
+        content = (
+          <li className="list-group-item item">
+            <p className="empty">
+              Select a category of questions
+            </p>
+          </li>
+        )
+      }
+
+      if (this.props.state[0] !== null) {
+        if (QuestionData[currentCategory].length === 1)
+        content = (
+          <li className="list-group-item item">
+            <p onClick={ () => this.props.addNewQuestion() }
+              className="empty">+ Add Question
+            </p>
+          </li>
+        )
+      }
+
     }
+    const update = this.props.state[11][1];
+    const activePage = this.props.state[11][2]
+    const totalPage = this.props.state[11][3]
+    this.props.questionList([content, update, activePage, totalPage]);
+    return content
 
   }
 
-  return content;
-
-};
+  render () {
+    const content = this.props.state[11][0]
+    // const content = <div></div>
+    return (
+      <React.Fragment>
+       { content }
+      </React.Fragment>
+    )
+  }
+}
 
 const mapStateToProps = (state) => ({ state: state })
 const mapDispatchToProps = (dispatch) => {
@@ -118,7 +183,8 @@ const mapDispatchToProps = (dispatch) => {
     setCategory: (id) => dispatch(setCategory(id)),
     onSelectQuestion: (id) => dispatch(setQuestion(id)),
     editQuestion: (id) => dispatch(editQuestion(id)),
-    addNewQuestion: () => dispatch(addNewQuestion())
+    addNewQuestion: () => dispatch(addNewQuestion()),
+    questionList: (content) => dispatch(questionList(content))
   }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(List);

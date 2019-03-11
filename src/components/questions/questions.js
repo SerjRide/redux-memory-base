@@ -15,11 +15,13 @@ const Questions = (props) => {
   const addMenu = props.state[3]
   const editMenu = props.state[4]
 
+  let footer = props.state[0] ? <Footer /> : null
+
   let content = (
     <React.Fragment>
       <Head />
       <List />
-      <Footer />
+      { footer }
     </React.Fragment>
   )
 

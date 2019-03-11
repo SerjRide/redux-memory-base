@@ -30,6 +30,9 @@ const changeCategoryPage = (num) => ({ type: 'CHANGE_CATEGORY_PAGE',
 const categoryList = (items) => ({ type: 'CATEGORY_RENDER_LIST',
                                         payload: items })
 
+const questionList = (items) => ({ type: 'QUESTION_RENDER_LIST',
+                                        payload: items })
+
 export {
   setCategory,
   setQuestion,
@@ -42,5 +45,6 @@ export {
   categorySearch,
   questionSearch,
   changeCategoryPage,
-  categoryList
+  categoryList,
+  questionList
 }
