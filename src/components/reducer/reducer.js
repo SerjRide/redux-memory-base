@@ -1,17 +1,14 @@
 const initialState = [
 
-  null, // 0-текущая Категория
-  null, // 1-текущий Вопрос
-  0, // 2-update
-  false, // 3-режим добавления нового вопроса
-  false, // 4-режим редактирования вопроса
-  null, // 5-режим алерта
-  true, // 6-тип алерта
-  '', // 7-Строка поиск по Категориям
-  '', // 8-Строка поиска по Вопросам
-  [0,1], // 9-текущая страница списка категорий
-  [], // 10-отрендеренный список категорий
-  [null,0,0,1] // 11-отрендеренный список вопросов
+  null, // текущая Категория
+  null, // текущий Вопрос
+  0, // update
+  false, // режим добавления нового вопроса
+  false, // режим редактирования вопроса
+  null, // режим алерта
+  true, // тип алерта
+  '', // Строка поиск по Категориям
+  '' // Строка поиска по Вопросам
 
 ]
 
@@ -29,10 +26,7 @@ const reducer = (state = initialState, action) => {
         state[5],
         state[6],
         state[7],
-        '',
-        state[9],
-        state[10],
-        state[11]
+        ''
       ];
 
     case 'SET_CATEGORY':
@@ -45,10 +39,7 @@ const reducer = (state = initialState, action) => {
         state[5],
         state[6],
         state[7],
-        '',
-        state[9],
-        state[10],
-        state[11]
+        ''
       ];
 
     case 'SET_QUESTION':
@@ -61,10 +52,7 @@ const reducer = (state = initialState, action) => {
         state[5],
         state[6],
         state[7],
-        state[8],
-        state[9],
-        state[10],
-        state[11]
+        state[8]
       ];
 
     case 'HIDE_PLAYER':
@@ -77,10 +65,7 @@ const reducer = (state = initialState, action) => {
         state[5],
         state[6],
         state[7],
-        state[8],
-        state[9],
-        state[10],
-        state[11]
+        state[8]
       ];
 
     case 'ADD_NEW_QUESTION':
@@ -93,10 +78,7 @@ const reducer = (state = initialState, action) => {
         state[5],
         state[6],
         state[7],
-        state[8],
-        state[9],
-        state[10],
-        state[11]
+        state[8]
       ];
 
     case 'EDIT_QUESTION':
@@ -109,10 +91,7 @@ const reducer = (state = initialState, action) => {
         state[5],
         state[6],
         state[7],
-        state[8],
-        state[9],
-        state[10],
-        state[11]
+        state[8]
       ];
 
     case 'ALERT':
@@ -125,10 +104,7 @@ const reducer = (state = initialState, action) => {
         action.payload[0],
         action.payload[1],
         state[7],
-        state[8],
-        state[9],
-        state[10],
-        state[11]
+        state[8]
       ];
 
     case 'CATEGORY_SEARCH':
@@ -141,10 +117,7 @@ const reducer = (state = initialState, action) => {
         state[5],
         state[6],
         action.payload,
-        state[8],
-        state[9],
-        state[10],
-        state[11]
+        state[8]
       ];
 
     case 'QUESTION_SEARCH':
@@ -157,57 +130,6 @@ const reducer = (state = initialState, action) => {
         state[5],
         state[6],
         state[7],
-        action.payload,
-        state[9],
-        state[10],
-        state[11]
-      ];
-
-    case 'CHANGE_CATEGORY_PAGE':
-      return state = [
-        state[0] ,
-        state[1],
-        state[2],
-        state[3],
-        state[4],
-        state[5],
-        state[6],
-        state[7],
-        state[8],
-        action.payload,
-        state[10],
-        state[11]
-      ];
-
-    case 'CATEGORY_RENDER_LIST':
-      return state = [
-        state[0] ,
-        state[1],
-        state[2],
-        state[3],
-        state[4],
-        state[5],
-        state[6],
-        state[7],
-        state[8],
-        state[9],
-        action.payload,
-        state[11]
-      ];
-
-    case 'QUESTION_RENDER_LIST':
-      return state = [
-        state[0] ,
-        state[1],
-        state[2],
-        state[3],
-        state[4],
-        state[5],
-        state[6],
-        state[7],
-        state[8],
-        state[9],
-        state[10],
         action.payload
       ];
 

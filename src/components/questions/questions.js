@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { QuestionData, findCountById } from '../../service/question-data.js';
 
 import './questions.css';
 
@@ -12,27 +11,15 @@ import AddQuestion from './add-question';
 import Edit from './edit';
 
 const Questions = (props) => {
-  const currentCategory = props.state[0]
-  const categoryCount = findCountById(currentCategory)
   const currentQuestion = props.state[1]
   const addMenu = props.state[3]
   const editMenu = props.state[4]
-
-  let footer = null;
-
-  console.log(QuestionData[categoryCount].length);
-
-  if (currentCategory) {
-    if ( QuestionData[categoryCount].length !== 1 ){
-      footer = <Footer />
-    }  
-  }
 
   let content = (
     <React.Fragment>
       <Head />
       <List />
-      { footer }
+      <Footer />
     </React.Fragment>
   )
 

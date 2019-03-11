@@ -7,63 +7,15 @@ import {
   findCountById } from '../../../service/question-data.js';
 
 //импорты для доступа к state'у
-import {
-    setCategory,
-    update,
-    editCategory,
-    alert,
-    changeCategoryPage,
-    categoryList,
-    questionList } from '../../actions';
-
+import { setCategory, update, editCategory, alert } from '../../actions';
 import { connect } from 'react-redux';
 
 class List extends Component {
 
-  state = {
-    renderList: 0
-  }
-
-  componentDidMount() {
-    this.renderList();
-    this.synch();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.renderList !== this.props.state[2]){
-      this.update();
-    }
-  }
-
-  update = () => {
-    this.synch(this.props.state[10][1]);
-    this.renderList();
-    this.setState({
-      renderList: this.state.renderList + 1
-    })
-  }
-
   delCategory = (id) => {
-    removeCategory(id);
-    const countOfPages = this.props.state[10][1]
-    this.props.update();
-    const obj = this.props.state[11][0];
-    const nextUpdateCount = this.props.state[11][1] + 1;
-    const activePage = this.props.state[11][2]
-    const totalPage = this.props.state[11][3]
-    this.props.changeCategoryPage([0, countOfPages])
-    this.props.questionList([obj, nextUpdateCount, 0, totalPage])
-    setTimeout(() => this.synch(countOfPages));
-    console.log(this.props.state[10][1].length)
+    removeCategory(id)
+    this.props.update()
   };
-
-  synch = (obj = QuestionData) => {
-    this.renderList();
-    const { length } = obj
-    const totalPages = Math.ceil(length / 5);
-    const active = this.props.state[9][0]
-    this.props.changeCategoryPage([active, totalPages])
-  }
 
   startEdit = (id) => {
     const count = findCountById(id)
@@ -115,32 +67,13 @@ class List extends Component {
     return items.filter((item) => {
       return item[0].name.indexOf(term) > -1;
     })
+
+    this.props.update();
   }
 
-  pageOutput = (items) => {
-    const currentPage = this.props.state[9][0]
-    const count = currentPage * 5
-    return items.filter((item, i) => {
-      if (i < count || i >= count + 5) return null
-      return item
-    });
-  }
-
-  selectCategory = (id) => {
-    this.props.onSelectCategory(id)
-    const currentCategory = findCountById(id)
-    const obj = this.props.state[11][0];
-    const nextUpdateCount = this.props.state[11][1] + 1;
-    const activePage = this.props.state[11][2]
-    const { length } = QuestionData[currentCategory]
-    const totalPage = Math.ceil((length - 1) / 6);
-    this.props.questionList([obj, nextUpdateCount, 0, totalPage])
-  }
-
-  renderList = () => {
+  render() {
     const term = this.props.state[7]
-    let searchingItems = this.search(QuestionData, term);
-    let visibleItems = this.pageOutput(searchingItems);
+    let visibleItems = this.search(QuestionData, term);
     const items = visibleItems.map((item, i) => {
 
       const { name, id } = item[0];
@@ -151,7 +84,7 @@ class List extends Component {
 
             <li id={`category_${id}`}
               className="list-group-item item">
-              <p onClick={ () => this.selectCategory(id) }>
+              <p onClick={ () => this.props.onSelectCategory(id) }>
                 { name }
               </p>
               <button
@@ -193,14 +126,6 @@ class List extends Component {
       )
     });
 
-    this.props.categoryList([items, searchingItems]);
-
-  }
-
-  render() {
-
-    const items = this.props.state[10][0]
-
     return(
       <React.Fragment>
         { items }
@@ -216,10 +141,7 @@ const mapDispatchToProps = (dispatch) => {
     onSelectCategory: (id) => dispatch(setCategory(id)),
     update: () => dispatch(update()),
     editCategory: () => dispatch(editCategory()),
-    alert: (text, type) => dispatch(alert(text, type)),
-    changeCategoryPage: (num) => dispatch(changeCategoryPage(num)),
-    categoryList: (items) => dispatch(categoryList(items)),
-    questionList: (content) => dispatch(questionList(content))
+    alert: (text, type) => dispatch(alert(text, type))
   }
 };
 

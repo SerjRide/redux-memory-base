@@ -5,7 +5,7 @@ import {
   QuestionData,
   createCategory } from '../../../service/question-data.js';
 
-import { update, alert, changeCategoryPage } from '../../actions';
+import { update, alert } from '../../actions';
 
 import './create-category.css';
 
@@ -14,21 +14,11 @@ class CreateCategory extends Component {
   check = () => {
     const { value } = this.newCategoryInput
     if (value !== '') {
-      if (QuestionData.length > 44){
-        this.newCategoryInput.className = 'form-control danger';
-        setTimeout(() => {
-          this.newCategoryInput.className = 'form-control';
-        }, 1800);
-        this.props.alert('Maximum number of categories exceeded', false);
-      } else {
-        console.log(QuestionData.length);
-        const id = Date.now();
-        createCategory(value, id);
-        this.props.update();
-        this.synch();
-        this.newCategoryInput.value = '';
-        this.props.alert('Category created');
-      }
+      const id = Date.now();
+      createCategory(value, id);
+      this.props.update();
+      this.newCategoryInput.value = '';
+      this.props.alert('Category created');
     } else {
       this.newCategoryInput.className = 'form-control danger';
       setTimeout(() => {
@@ -38,14 +28,6 @@ class CreateCategory extends Component {
       this.props.alert('The category must have a name', false);
     }
   };
-
-  synch = () => {
-    const obj = this.props.state[10][1].length
-    const totalPages = Math.ceil(obj / 5);
-    const active = this.props.state[9][0]
-    this.props.changeCategoryPage([active, totalPages])
-    this.props.update();
-  }
 
   onEnter = (e) => {
     if (e.which === 13) {
@@ -83,8 +65,7 @@ const mapStateToProps = (state) => ({ state: state })
 const mapDispatchToProps = (dispatch) => {
   return{
     update: () => dispatch(update()),
-    alert: (text,type) => dispatch(alert(text,type)),
-    changeCategoryPage: (num) => dispatch(changeCategoryPage(num))
+    alert: (text,type) => dispatch(alert(text,type))
   }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(CreateCategory)

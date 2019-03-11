@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   QuestionData,
   removeQuestion,
@@ -9,157 +9,110 @@ import {
   setCategory,
   setQuestion,
   editQuestion,
-  addNewQuestion,
-  questionList } from '../../actions';
+  addNewQuestion } from '../../actions';
 
 import { connect } from 'react-redux';
 
-class List extends Component {
+const List = (props) => {
 
-  state = {
-    update: 0
-  }
+  findId()
 
-  componentDidUpdate() {
-    if (this.state.update !== this.props.state[11][1]) {
-      this.update();
-    }
-  }
+  const currentCategory = findCountById(props.state[0]);
+  let content;
 
-  update = () => {
-    this.renderList()
-    this.setState({
-      update: this.state.update + 1
-    })
-  }
-
-  delQuestion = (id) => {
-    const currentCategory = findCountById(this.props.state[0]);
+  const delQuestion = (id) => {
     removeQuestion(currentCategory, findCountById(id, false))
-    this.props.setCategory(findId(currentCategory))
-    const obj = this.props.state[11][0]
-    const nextUpdateCount = this.props.state[11][1] + 1
-    const activePage = 0
-    setTimeout( () => this.synch() );
-    const totalPage = this.props.state[11][3]
-    this.props.questionList([obj, nextUpdateCount, activePage, totalPage])
+    props.setCategory(findId(currentCategory))
   }
 
-  search = (items, term) => {
-    if (term.length === 0) return items;
+  if (!currentCategory) {
+    content = (
+      <li className="list-group-item item">
+        <p className="empty">Select a category of questions</p>
+      </li>
+    )
+  };
 
-    return items.filter((item, i) => {
-      if (i !== 0) return item.question
-                              .toLowerCase()
-                              .indexOf(term.toLowerCase()) > -1;
-      return null
-    })
-  }
+  if (currentCategory !== null) {
 
-  synch = () => {
-    const obj = QuestionData[findCountById(this.props.state[0])]
-    const { length } = obj
-    const currentObj = this.props.state[11][0];
-    const update = this.props.state[11][1];
-    const active = this.props.state[11][2];
-    const totalPages = Math.ceil((length - 1) / 6);
-    this.props.questionList([currentObj, update, active, totalPages])
-  }
+    const search = (items, term) => {
+      if (term.length === 0) return items;
 
-  pageOutput = (items) => {
-    const currentPage = this.props.state[11][2]
-    const count = currentPage === 0 ? currentPage * 7 : currentPage * 6
-    if (currentPage === 0) {
       return items.filter((item, i) => {
-        if (i < count || i >= count + 7) return null
-        return item
-      });
-    } else {
-      return items.filter((item, i) => {
-        if (i <= count || i > count + 6) return null
-        return item
-      });
+        if (i !== 0) return item.question
+                                .toLowerCase()
+                                .indexOf(term.toLowerCase()) > -1;
+        return null
+      })
+
+      props.setCategory(currentCategory);
     }
-  }
 
-  renderList = () => {
-    const currentCategory = findCountById(this.props.state[0]);
-    let content;
+    const term = props.state[8]
+    let visibleItems = search(QuestionData[currentCategory], term);
 
-    if (currentCategory !== null) {
+    if (QuestionData[currentCategory] !== undefined) {
+      content = visibleItems.map((item, i) => {
+        if (visibleItems[i].question === undefined) return null
 
-      const term = this.props.state[8]
-      let searchingItems = this.search(QuestionData[currentCategory], term);
-        let visibleItems = this.pageOutput(searchingItems);
+          // <li className="list-group-item item">
+          //   <p onClick={ () => props.addNewQuestion() }
+          //     className="empty">+ Add Question
+          //   </p>
+          // </li>
 
-      if (QuestionData[currentCategory] !== undefined) {
 
-        content = visibleItems.map((item, i) => {
-          if (visibleItems[i].question === undefined) return null
-
-          const { id } = item
-          return (
-            <li key={ id }
-              className="list-group-item item">
-              <p onClick={ () => this.props.onSelectQuestion(id) }>
-                { visibleItems[i].question }
-              </p>
-              <button
-                 type="button" onClick={ () => this.props.editQuestion(id) }
-                 data-title="Edit Question"
-                 className="btn btn-secondary list">
-                 <i className="far fa-edit"></i>
-              </button>
-              <button
-                type="button" onClick={ () => this.delQuestion(id) }
-                data-title="Delete Question"
-                className="btn btn-secondary list">
-                <i className="far fa-trash-alt"></i>
-              </button>
-            </li>
-          )
-        })
-
-      };
-
-      if (this.props.state[0] !== null) {
-        if (QuestionData[currentCategory].length === 1)
-        content = (
-          <li className="list-group-item item">
-            <p onClick={ () => this.props.addNewQuestion() }
-              className="empty">+ Add Question
+        const { id } = item
+        return (
+          <li key={ id }
+            className="list-group-item item">
+            <p onClick={ () => props.onSelectQuestion(id) }>
+              { visibleItems[i].question }
             </p>
+            <button
+               type="button" onClick={ () => props.editQuestion(id) }
+               data-title="Edit Question"
+               className="btn btn-secondary list">
+               <i className="far fa-edit"></i>
+            </button>
+            <button
+              type="button" onClick={ () => delQuestion(id) }
+              data-title="Delete Question"
+              className="btn btn-secondary list">
+              <i className="far fa-trash-alt"></i>
+            </button>
           </li>
         )
-      }
+      })
 
-    }
-    const update = this.props.state[11][1];
-    const activePage = this.props.state[11][2]
-    const totalPage = this.props.state[11][3]
-    this.props.questionList([content, update, activePage, totalPage]);
-    return content
-
-  }
-
-  render () {
-    let content = this.props.state[11][0]
-
-    if (this.props.state[0] === null) {
-      content = (
-        <li className="list-group-item item">
-          <p className="empty">Select a category of questions</p>
-        </li>
-      )
     };
 
-    return (
-      <React.Fragment>
-       { content }
-      </React.Fragment>
-    )
+    if (props.state[0] === null) {
+      content = (
+        <li className="list-group-item item">
+          <p className="empty">
+            Select a category of questions
+          </p>
+        </li>
+      )
+    }
+
+    if (props.state[0] !== null) {
+      if (QuestionData[currentCategory].length === 1)
+      content = (
+        <li className="list-group-item item">
+          <p onClick={ () => props.addNewQuestion() }
+            className="empty">+ Add Question
+          </p>
+        </li>
+      )
+    }
+
   }
-}
+
+  return content;
+
+};
 
 const mapStateToProps = (state) => ({ state: state })
 const mapDispatchToProps = (dispatch) => {
@@ -167,8 +120,7 @@ const mapDispatchToProps = (dispatch) => {
     setCategory: (id) => dispatch(setCategory(id)),
     onSelectQuestion: (id) => dispatch(setQuestion(id)),
     editQuestion: (id) => dispatch(editQuestion(id)),
-    addNewQuestion: () => dispatch(addNewQuestion()),
-    questionList: (content) => dispatch(questionList(content))
+    addNewQuestion: () => dispatch(addNewQuestion())
   }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(List);

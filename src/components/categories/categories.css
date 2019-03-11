@@ -59,11 +59,11 @@
   background-color: #f4fcef;
 }
 
-.list-group-item button.btn:hover {
+.list-group-item button:hover {
   background-color: #DAE4D3!important;
 }
 
-button.btn.header {
+button.header {
   background-color: #f4fcef!important;
 }
 

@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { categorySearch, update, changeCategoryPage  } from '../../actions';
+import { categorySearch } from '../../actions';
 
 class Head extends Component {
 
   search = (e) => {
-    const { categorySearch, update, changeCategoryPage } = this.props
-    changeCategoryPage([0,this.props.state[9][1]])
-    categorySearch(e.target.value)
-    update();
-    update();
+    this.props.categorySearch(e.target.value)
   }
 
   render() {
@@ -30,9 +26,7 @@ class Head extends Component {
 const mapStateToProps = (state) => ({ state: state })
 const mapDispatchToProps = (dispatch) => {
   return{
-    categorySearch: (text) => dispatch(categorySearch(text)),
-    update: () => dispatch(update()),
-    changeCategoryPage: (num) => dispatch(changeCategoryPage(num))
+    categorySearch: (text) => dispatch(categorySearch(text))
   }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Head)
