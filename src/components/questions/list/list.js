@@ -4,7 +4,6 @@ import {
   removeQuestion,
   findId,
   findCountById,
-  addCategoryNEW,
   addedInNEW } from '../../../service/question-data.js';
 
 import {
@@ -24,10 +23,8 @@ const List = (props) => {
     const text = 'Are you sure?';
     if (window.confirm(text)) {
       removeQuestion(currentCategory, findCountById(id, false))
-      props.setCategory(findId(currentCategory))
-      addCategoryNEW();
       addedInNEW();
-      addCategoryNEW();
+      props.setCategory(findId(currentCategory))
     }
   }
 

@@ -5,7 +5,6 @@ import {
   QuestionData,
   createQuestion,
   findCountById,
-  addCategoryNEW,
   addedInNEW } from '../../../service/question-data.js';
 
 import './add-question.css';
@@ -20,7 +19,6 @@ class AddQuestion extends Component {
 
     if (question !== '' && answer !== '') {
       createQuestion(currentCategory, question, answer, id)
-      addCategoryNEW();
       addedInNEW();
       this.props.alert('Question added');
       this.newQuestion.focus();

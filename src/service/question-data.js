@@ -68,8 +68,8 @@ const removeCategory = (i) => {
   setBase(QuestionData);
 };
 
-const createQuestion = (currentCategory, question, answer, id) => {
-  const timeStamp = Date.now()
+const createQuestion = (currentCategory, question, answer, id, timeStamp) => {
+  timeStamp = timeStamp === undefined ? Date.now() : timeStamp
   QuestionData[currentCategory].push({
     id: id,
     question: question,
@@ -79,37 +79,23 @@ const createQuestion = (currentCategory, question, answer, id) => {
   setBase(QuestionData);
 };
 
-const addCategoryNEW = function () {
-  if (QuestionData.length === 0) return null;
-  const position = findCountById('0000')
-  const actual = QuestionData[position][0].id
-  const qCount = QuestionData[position].length - 1
-  console.log(qCount);
-  if (actual === '0000') removeCategory(position);
-  if (actual === '0000'&& qCount === 0) return null;
-  QuestionData.splice(0,0,[{name: 'NEW', id: '0000'}])
-  setBase(QuestionData)
-};
-
 const addedInNEW = function addedInNEW () {
-  if (QuestionData.length === 0) return null;
-  const position = findCountById('0000')
-  let data = QuestionData, insideId = []
-  data[position].map((item, i) => insideId[i] = item.id )
-  for (let i = 0; i < data.length; i++) {
-    if (i !== position) {
-      for (let j = 1; j < data[i].length; j++) {
-        const { id, question, answer } = data[i][j]
-        // дни
-        if (getAddedTime(id) < 2) {
-          if (insideId.indexOf(id) === -1) {
-            console.log('Вопрос добавлен');
-            createQuestion(position, question, answer, id);
-          } else console.log('Вопрос не добавлен');
+  let data = QuestionData, insideDate = []
+  data[0].map((item, i) => insideDate[i] = item.date )
+  data[0].splice(1, data[0].length)
+  for (let i = 1; i < data.length; i++) {
+    for (let j = 1; j < data[i].length; j++) {
+      const {question, answer, date } = data[i][j];
+      const id = j + 1000;
+      if (getAddedTime(date) < 4) {
+        if (insideDate.indexOf(QuestionData[0]) === -1) {
+          createQuestion(0, question, answer, id, date);
         }
       }
     }
   }
+  let show = QuestionData[0].length === 1 ? false : true
+  QuestionData[0][0].display = show
 };
 
 const removeQuestion = (currentCategory, i) => {
@@ -131,7 +117,6 @@ const changeQuestion = (currentCategory,
   setBase(QuestionData);
 }
 
-addCategoryNEW();
 addedInNEW();
 
 export {
@@ -144,6 +129,5 @@ export {
   changeQuestion,
   findId,
   findCountById,
-  addCategoryNEW,
   addedInNEW
 }

@@ -5,7 +5,6 @@ import {
   removeCategory,
   rename,
   findCountById,
-  addCategoryNEW,
   addedInNEW } from '../../../service/question-data.js';
 
 //импорты для доступа к state'у
@@ -18,9 +17,7 @@ class List extends Component {
     const text = 'Are you sure?'
     if (window.confirm(text)) {
       removeCategory(id)
-      addCategoryNEW();
       addedInNEW();
-      addCategoryNEW();
       this.props.update()
     }
   };
@@ -87,9 +84,9 @@ class List extends Component {
       const { name, id } = item[0];
       const { length } = visibleItems[i];
       let buttons_1, buttons_2;
-      let newQuestion = id === '0000' ? <i className="fas fa-fire"></i> : null
+      let newQuestion = id === 1111 ? <i className="fas fa-fire"></i> : null
 
-      if (id !== '0000') {
+      if (id !== 1111) {
         buttons_1 = (
           <React.Fragment>
             <button
@@ -124,8 +121,15 @@ class List extends Component {
         )
       }
 
+      let display = '';
+      if (i === 0){
+        if (QuestionData[0][0].display === false){
+          display = 'hide'
+        }
+      }
+
       return(
-        <li key={ id } className="over_li">
+        <li key={ id } className={`over_li ${display}`}>
           <ul className="under_ul">
 
             <li id={`category_${id}`}

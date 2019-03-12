@@ -89,6 +89,10 @@ input.rename:focus {
    list-style-type: none;
 }
 
+.over_li.hide {
+  display: none;
+}
+
 .under_ul {
   padding: 0;
   margin: 0;

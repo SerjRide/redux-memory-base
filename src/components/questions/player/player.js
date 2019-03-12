@@ -6,9 +6,7 @@ import {
   QuestionData,
   removeQuestion,
   findCountById,
-  findId,
-  addCategoryNEW,
-  addedInNEW } from '../../../service/question-data.js';
+  findId } from '../../../service/question-data.js';
 
 import { setQuestion, hidePlayer, editQuestion, alert  } from '../../actions';
 
@@ -116,9 +114,6 @@ class Player extends Component {
 
     if (window.confirm(text)) {
       removeQuestion(currentCategory, currentQuestion);
-      addCategoryNEW();
-      addedInNEW();
-      addCategoryNEW();
 
       if (length !== 2 || currentQuestion !== length - 1) {
         this.props.setQuestion(findId(currentCategory, currentQuestion))
