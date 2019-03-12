@@ -9,6 +9,7 @@ import Questions from '../questions';
 
 import Alert from '../alerts';
 import { connect } from 'react-redux';
+// import { waveEffects } from '../../service/effects';
 
 import Row from '../row';
 

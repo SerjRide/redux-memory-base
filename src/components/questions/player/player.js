@@ -14,12 +14,31 @@ import './player.css';
 
 class Player extends Component {
 
+  state = { update: 0 }
+
+  componentDidMount() {
+    const currentQuestion = findCountById(this.props.state[1], false);
+    this.selectQNamber.value = currentQuestion;
+  }
+
+  selectNamber = () => {
+    this.selectQNamber.select();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.update !== prevState.update) {
+      const currentQuestion = findCountById(this.props.state[1], false);
+      this.selectQNamber.value = currentQuestion;
+    }
+  }
+
   changeQuestion = (action) => {
     const { setQuestion } = this.props
     const currentCategory = findCountById(this.props.state[0]);
     const currentQuestion = findCountById(this.props.state[1], false);
     const length = QuestionData[currentCategory].length - 1
     const { question } = QuestionData[currentCategory][currentQuestion];
+    const value = Number(this.selectQNamber.value);
     this.answerArea.className = 'you-answer'
     let count;
 
@@ -41,7 +60,17 @@ class Player extends Component {
     }
     if (action === '<<') setQuestion(findId(currentCategory,1));
     if (action === '>>') setQuestion(findId(currentCategory,length));
+    if (action === 'number') {
+      if (value > length || value < 1) {
+        this.props.alert('Question not found', false);
+        this.selectQNamber.value = currentQuestion;
+      } else {
+        setQuestion(findId(currentCategory,value));
+      }
 
+    }
+
+    this.setState({ update: this.state.update + 1});
     this.questionArea.value = question;
     this.answerArea.value = '';
   }
@@ -99,10 +128,10 @@ class Player extends Component {
 
   }
 
-  onEnter = (e) => {
+  onEnter = (e, func) => {
     if (e.which === 13) {
       e.preventDefault();
-      this.check();
+      func();
     }
   }
 
@@ -164,12 +193,10 @@ class Player extends Component {
            <i className="fas fa-angle-left"></i>
         </button>
         <div className="input-group">
-          <input type="number" onClick={ () => console.log('select_question') }
+          <input type="number" onClick={ this.selectNamber }
             className="form-control" id="questionNumber"
-            onKeyDown={ () => console.log('onKeyDown') }
-
-            placeholder={ currentQuestion }
-
+            onKeyDown={ (e) => this.onEnter(e, () => this.changeQuestion('number')) }
+            ref={ (e) => { this.selectQNamber = e }}
             aria-label="Input group example"
             aria-describedby="btnGroupAddon"/>
         </div>
@@ -211,7 +238,7 @@ class Player extends Component {
           className="you-answer"
           ref={(e) => { this.answerArea = e }}
           id="answer"
-          onKeyDown={ (e) => this.onEnter(e) }/>
+          onKeyDown={ (e) => this.onEnter(e, this.check) }/>
         <button
           type="button" onClick={ this.check }
           className="btn btn-success btn-sm btn-block">

@@ -25,3 +25,37 @@ html {
 .list-group-item button {
   z-index: 2!important;
 }
+
+.btn.btn-secondary.wave-effect {
+  position: relative;
+  background-color: rgba(176, 255, 159, 0.51);
+  width: 90px;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.btn.btn-secondary.wave-effect:hover {
+  background-color: rgba(224, 252, 178, 0.49);
+}
+
+.pulse {
+  position:absolute;
+  opacity: 0;
+  border-radius: 100px;
+  width: 100px;
+  height: 100px;
+  background-color: #50EE29;
+  animation: pulse 0.6s;
+  z-index: -1;
+  filter: blur(3px);
+  -webkit-filter: blur(3px);
+  -moz-filter: blur(3px);
+  -o-filter: blur(3px);
+  -ms-filter: blur(3px);
+}
+
+@keyframes pulse {
+  from { transform: scale(0); }
+  50% { opacity: 0.5; }
+  to { transform: scale(2); }
+}
