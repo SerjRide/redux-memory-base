@@ -4,7 +4,9 @@ import {
   QuestionData,
   removeCategory,
   rename,
-  findCountById } from '../../../service/question-data.js';
+  findCountById,
+  addCategoryNEW,
+  addedInNEW } from '../../../service/question-data.js';
 
 //импорты для доступа к state'у
 import { setCategory, update, editCategory, alert } from '../../actions';
@@ -16,6 +18,9 @@ class List extends Component {
     const text = 'Are you sure?'
     if (window.confirm(text)) {
       removeCategory(id)
+      addCategoryNEW();
+      addedInNEW();
+      addCategoryNEW();
       this.props.update()
     }
   };
@@ -81,6 +86,43 @@ class List extends Component {
 
       const { name, id } = item[0];
       const { length } = visibleItems[i];
+      let buttons_1, buttons_2;
+      let newQuestion = id === '0000' ? <i className="fas fa-fire"></i> : null
+
+      if (id !== '0000') {
+        buttons_1 = (
+          <React.Fragment>
+            <button
+               type="button" onClick={ () => this.startEdit(id) }
+               data-title="Rename Category"
+               className="btn btn-secondary list">
+               <i className="far fa-edit"></i>
+            </button>
+            <button
+              type="button" onClick={ () => this.delCategory(id) }
+              data-title="Delete Category"
+              className="btn btn-secondary list">
+              <i className="far fa-trash-alt"></i>
+            </button>
+          </React.Fragment>
+        )
+        buttons_2 = (
+          <React.Fragment>
+            <button
+               type="button" onClick={ () => this.check(id) }
+               data-title="Apply"
+               className="btn btn-secondary list">
+               <i className="fas fa-check"></i>
+            </button>
+            <button
+              type="button" onClick={ () => this.closeEdit(id) }
+              data-title="Cancel"
+              className="btn btn-secondary list">
+              <i className="fas fa-times"></i>
+            </button>
+          </React.Fragment>
+        )
+      }
 
       return(
         <li key={ id } className="over_li">
@@ -89,21 +131,11 @@ class List extends Component {
             <li id={`category_${id}`}
               className="list-group-item item">
               <p onClick={ () => this.props.onSelectCategory(id) }>
+                { newQuestion }
                 { name }<span className="badge badge-success">
                 {length - 1}</span>
               </p>
-              <button
-                 type="button" onClick={ () => this.startEdit(id) }
-                 data-title="Rename Category"
-                 className="btn btn-secondary list">
-                 <i className="far fa-edit"></i>
-              </button>
-              <button
-                type="button" onClick={ () => this.delCategory(id) }
-                data-title="Delete Category"
-                className="btn btn-secondary list">
-                <i className="far fa-trash-alt"></i>
-              </button>
+              { buttons_1 }
             </li>
 
             <li id={`form_${id}`}
@@ -112,18 +144,7 @@ class List extends Component {
                 onKeyDown={ (e) => this.onEnter(e, id) }
                 className="rename"
                 type="text" />
-              <button
-                 type="button" onClick={ () => this.check(id) }
-                 data-title="Apply"
-                 className="btn btn-secondary list">
-                 <i className="fas fa-check"></i>
-              </button>
-              <button
-                type="button" onClick={ () => this.closeEdit(id) }
-                data-title="Cancel"
-                className="btn btn-secondary list">
-                <i className="fas fa-times"></i>
-              </button>
+              { buttons_2 }
             </li>
 
           </ul>

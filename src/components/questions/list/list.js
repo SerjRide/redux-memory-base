@@ -3,7 +3,9 @@ import {
   QuestionData,
   removeQuestion,
   findId,
-  findCountById } from '../../../service/question-data.js';
+  findCountById,
+  addCategoryNEW,
+  addedInNEW } from '../../../service/question-data.js';
 
 import {
   setCategory,
@@ -23,6 +25,9 @@ const List = (props) => {
     if (window.confirm(text)) {
       removeQuestion(currentCategory, findCountById(id, false))
       props.setCategory(findId(currentCategory))
+      addCategoryNEW();
+      addedInNEW();
+      addCategoryNEW();
     }
   }
 

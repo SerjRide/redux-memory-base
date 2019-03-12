@@ -98,3 +98,9 @@ input.rename:focus {
 .list-group-item.item.editCategoryInput {
   display: none;
 }
+
+.fas.fa-fire {
+  color: #EE652A;
+  margin-right: 3px;
+  height: 29px;
+}
