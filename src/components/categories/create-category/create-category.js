@@ -45,7 +45,7 @@ class CreateCategory extends Component {
         <li className="list-group-item item">
           <form>
             <div className ="form-group categories">
-              <input type="text" onClick={ () => console.log('resetStyle') }
+              <input type="text"
                 onKeyDown={ (e) => this.onEnter(e) }
                 className="form-control"
                 id="categoryName"
