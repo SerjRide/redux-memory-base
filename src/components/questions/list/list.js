@@ -73,8 +73,10 @@ const List = (props) => {
           question = String(visibleItems[i].question).substring(0,30) + '...';
         }
 
-        const categoryId = props.state[0]
-        let disabled = categoryId === 1111 ? `disabled` : ``
+        const newCategoryId = props.state[0]
+        const bookmarksCategoryId = props.state[0]
+        let disabled = newCategoryId === 1111 ? `disabled` : ``
+        disabled = bookmarksCategoryId === 2222 ? `disabled` : ``
 
         const { id } = item
         return (

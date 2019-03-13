@@ -79,11 +79,11 @@ const createQuestion = (currentCategory, question, answer, id, timeStamp) => {
   setBase(QuestionData);
 };
 
-const addedInNEW = function addedInNEW () {
+const addedInNEW = function() {
   let data = QuestionData, insideDate = []
   data[0].map((item, i) => insideDate[i] = item.date )
   data[0].splice(1, data[0].length)
-  for (let i = 1; i < data.length; i++) {
+  for (let i = 2; i < data.length; i++) {
     for (let j = 1; j < data[i].length; j++) {
       const {question, answer, date } = data[i][j];
       const id = data[i][j].id - Math.pow(10,12);
@@ -97,6 +97,32 @@ const addedInNEW = function addedInNEW () {
   let show = QuestionData[0].length === 1 ? false : true
   QuestionData[0][0].display = show
 };
+
+const addBookmark = function(id) {
+  const category = findCountById(id);
+  const question = findCountById(id, false);
+  QuestionData[category][question].bookmark = true
+  setBase(QuestionData);
+  addedInBookmarks();
+}
+
+const addedInBookmarks = function() {
+  let data = QuestionData, insideDate = []
+  data[1].map((item, i) => insideDate[i] = item.date )
+  for (let i = 2; i < data.length; i++) {
+    for (let j = 1; j < data[i].length; j++) {
+      const { question, answer, bookmark, date } = data[i][j];
+      const id = data[i][j].id - Math.pow(10,11);
+      if (bookmark === true) {
+        if (insideDate.indexOf(data[i][j].date) === -1) {
+          createQuestion(1, question, answer, id, date);
+        }
+      }
+    }
+  }
+  let show = QuestionData[1].length === 1 ? false : true
+  QuestionData[1][0].display = show
+}
 
 const removeQuestion = (currentCategory, i) => {
   QuestionData[currentCategory].splice(i,1);
@@ -118,6 +144,7 @@ const changeQuestion = (currentCategory,
 }
 
 addedInNEW();
+addBookmark();
 
 export {
   QuestionData,
@@ -129,5 +156,6 @@ export {
   changeQuestion,
   findId,
   findCountById,
-  addedInNEW
+  addedInNEW,
+  addBookmark
 }

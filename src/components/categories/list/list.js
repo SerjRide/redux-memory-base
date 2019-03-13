@@ -85,8 +85,9 @@ class List extends Component {
       const { length } = visibleItems[i];
       let buttons_1, buttons_2;
       let newQuestion = id === 1111 ? <i className="fas fa-fire"></i> : null
+      let bookmarks = id === 2222 ? <i className="fas fa-bookmark"></i> : null
 
-      if (id !== 1111) {
+      if (id !== 1111 && id !== 2222) {
         buttons_1 = (
           <React.Fragment>
             <button
@@ -122,11 +123,16 @@ class List extends Component {
       }
 
       let display = '';
-      if (i === 0){
+      if (i === 0) {
         if (QuestionData[0][0].display === false){
+          display = 'hide'
+        }}
+      if (i === 1) {
+        if (QuestionData[1][0].display === false){
           display = 'hide'
         }
       }
+        
 
       return(
         <li key={ id } className={`over_li ${display}`}>
@@ -136,6 +142,7 @@ class List extends Component {
               className="list-group-item item">
               <p onClick={ () => this.props.onSelectCategory(id) }>
                 { newQuestion }
+                { bookmarks }
                 { name }<span className="badge badge-success">
                 {length - 1}</span>
               </p>

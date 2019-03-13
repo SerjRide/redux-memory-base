@@ -107,8 +107,20 @@ input.rename:focus {
   display: none;
 }
 
-.fas.fa-fire {
-  color: #EE652A;
+.fas.fa-fire, .fas.fa-bookmark {
   margin-right: 3px;
   height: 29px;
+}
+
+.fas.fa-fire {
+  color: #EE652A;
+}
+
+p .fas.fa-bookmark {
+  color: #8E19A6;
+}
+
+button .fas.fa-bookmark {
+  color: #8E19A6;
+  height: 0px;
 }

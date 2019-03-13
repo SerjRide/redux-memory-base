@@ -7,7 +7,8 @@ import {
   removeQuestion,
   findCountById,
   findId,
-  addedInNEW } from '../../../service/question-data.js';
+  addedInNEW,
+  addBookmark } from '../../../service/question-data.js';
 
 import { setQuestion, hidePlayer, editQuestion, alert  } from '../../actions';
 
@@ -138,6 +139,7 @@ class Player extends Component {
   }
 
   checkOnDisabled = (e, func) => {
+    console.log(e.target.className)
     let obj = e.target.classList
     for (let key in obj) {
       if (obj[key] === 'disabled') {
@@ -153,6 +155,11 @@ class Player extends Component {
     this.props.editQuestion(findId(currentCategory ,currentQuestion))
   }
 
+  addBookmarkBtn = () => {
+    const currentQuestion = this.props.state[1];
+    addBookmark(currentQuestion)
+  }
+
   render() {
     const currentCategory = findCountById(this.props.state[0]);
     const currentQuestion = findCountById(this.props.state[1], false);
@@ -161,10 +168,14 @@ class Player extends Component {
     const { name } = QuestionData[currentCategory][0];
     const { question } = QuestionData[currentCategory][currentQuestion];
     const categoryId =this.props.state[0]
-
-    console.log(this.props.state[0])
+    let insideDate = [], stock;
+    QuestionData[1].map((item, i) => insideDate[i] = item.date )
+    if (insideDate.indexOf(QuestionData[currentCategory][currentQuestion].date) !== -1) {
+      stock = `fas`
+    } else stock = `far`
 
     let disabled = categoryId === 1111 ? `disabled` : ``
+    disabled = categoryId === 2222 ? `disabled` : ``
 
     return(
       <React.Fragment>
@@ -194,10 +205,10 @@ class Player extends Component {
         </button>
         <button
            type="button"
-           onClick={ (e) => this.checkOnDisabled(e, () => console.log('bookmarks')) }
+           onClick={ (e) => this.checkOnDisabled(e, this.addBookmarkBtn) }
            className={`btn btn-secondary ${disabled}`}
            data-title="Add to bookmarks">
-           <i className={`far fa-bookmark ${disabled}`}></i>
+           <i className={`${stock} fa-bookmark ${disabled}`}></i>
         </button>
         <button
            type="button" onClick={ () => this.changeQuestion('<<') }
