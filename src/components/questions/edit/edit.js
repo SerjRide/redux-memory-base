@@ -5,7 +5,8 @@ import {
   changeQuestion,
   findCountById,
   findId,
-  addedInNEW } from '../../../service/question-data.js';
+  addedInNEW,
+  addBookmark } from '../../../service/question-data.js';
 
 import { connect } from 'react-redux';
 import { setQuestion, alert } from '../../actions';
@@ -30,11 +31,20 @@ class Edit extends Component {
 
 
     if (question !== '' && answer !== '') {
-      const currentCategory = findCountById(this.props.state[0])
-      const currentQuestion = findCountById(this.props.state[1], false);
-
+      let currentCategory, currentQuestion;
+      if (this.props.state[0] === 2222){
+        console.log('ok')
+        const id = this.props.state[1]
+        const link = id + Math.pow(10,11)
+        currentCategory = findCountById(link)
+        currentQuestion = findCountById(link, false);
+      } else {
+        currentCategory = findCountById(this.props.state[0])
+        currentQuestion = findCountById(this.props.state[1], false);
+      }
       changeQuestion(currentCategory, currentQuestion, question, answer)
       addedInNEW();
+      addBookmark();
       this.props.alert('Question changed');
       this.props.setQuestion(findId(currentCategory,currentQuestion))
     }

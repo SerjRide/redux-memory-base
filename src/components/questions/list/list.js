@@ -40,6 +40,12 @@ const List = (props) => {
     func();
   }
 
+  const removeFromBookmarks = (id) => {
+    const link = id + Math.pow(10,11)
+    addBookmark(link)
+    props.setCategory(findId(currentCategory))
+  }
+
   if (!currentCategory) {
     content = (
       <li className="list-group-item item">
@@ -78,7 +84,27 @@ const List = (props) => {
         const categoryId = props.state[0]
 
         let disabled = ``;
-        if (categoryId === 1111 || categoryId === 2222) disabled = `disabled`
+        if (categoryId === 1111) disabled = `disabled`
+
+        let button = (
+            <button
+              type="button"
+              onClick={ (e) => checkOnDisabled(e, () => delQuestion(id)) }
+              data-title="Delete Question"
+              className={`btn btn-secondary list ${disabled}`}>
+              <i className={`far fa-trash-alt ${disabled}`}></i>
+            </button>
+        );
+
+        if (categoryId === 2222) button = (
+          <button
+             type="button"
+             onClick={ () => removeFromBookmarks(id) }
+             data-title="Remove from bookmarks"
+             className={`btn btn-secondary list`}>
+             <i className={`fas fa-times`}></i>
+          </button>
+        )
 
         const { id } = item
         return (
@@ -94,13 +120,7 @@ const List = (props) => {
                className={`btn btn-secondary list ${disabled}`}>
                <i className={`far fa-edit ${disabled}`}></i>
             </button>
-            <button
-              type="button"
-              onClick={ (e) => checkOnDisabled(e, () => delQuestion(id)) }
-              data-title="Delete Question"
-              className={`btn btn-secondary list ${disabled}`}>
-              <i className={`far fa-trash-alt ${disabled}`}></i>
-            </button>
+            { button }
           </li>
         )
       })
