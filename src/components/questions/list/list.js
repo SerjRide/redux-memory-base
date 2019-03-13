@@ -4,7 +4,8 @@ import {
   removeQuestion,
   findId,
   findCountById,
-  addedInNEW } from '../../../service/question-data.js';
+  addedInNEW,
+  addBookmark } from '../../../service/question-data.js';
 
 import {
   setCategory,
@@ -24,6 +25,7 @@ const List = (props) => {
     if (window.confirm(text)) {
       removeQuestion(currentCategory, findCountById(id, false))
       addedInNEW();
+      addBookmark();
       props.setCategory(findId(currentCategory))
     }
   }
@@ -73,10 +75,10 @@ const List = (props) => {
           question = String(visibleItems[i].question).substring(0,30) + '...';
         }
 
-        const newCategoryId = props.state[0]
-        const bookmarksCategoryId = props.state[0]
-        let disabled = newCategoryId === 1111 ? `disabled` : ``
-        disabled = bookmarksCategoryId === 2222 ? `disabled` : ``
+        const categoryId = props.state[0]
+
+        let disabled = ``;
+        if (categoryId === 1111 || categoryId === 2222) disabled = `disabled`
 
         const { id } = item
         return (

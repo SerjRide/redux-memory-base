@@ -117,6 +117,7 @@ class Player extends Component {
     if (window.confirm(text)) {
       removeQuestion(currentCategory, currentQuestion);
       addedInNEW();
+      addBookmark();
 
       if (length !== 2 || currentQuestion !== length - 1) {
         this.props.setQuestion(findId(currentCategory, currentQuestion))
@@ -139,7 +140,6 @@ class Player extends Component {
   }
 
   checkOnDisabled = (e, func) => {
-    console.log(e.target.className)
     let obj = e.target.classList
     for (let key in obj) {
       if (obj[key] === 'disabled') {
@@ -156,8 +156,15 @@ class Player extends Component {
   }
 
   addBookmarkBtn = () => {
+    const categoryCount = findCountById(this.props.state[0]);
+    const questionCount = findCountById(this.props.state[1], false);
     const currentQuestion = this.props.state[1];
-    addBookmark(currentQuestion)
+    const { bookmark } = QuestionData[categoryCount][questionCount]
+    addBookmark(currentQuestion);
+    this.setState({ update: this.state.update + 1});
+    if (!bookmark) this.props.alert('Question added to bookmarks')
+    if (bookmark) this.props.alert('Question removed from bookmarks')
+
   }
 
   render() {
@@ -174,8 +181,8 @@ class Player extends Component {
       stock = `fas`
     } else stock = `far`
 
-    let disabled = categoryId === 1111 ? `disabled` : ``
-    disabled = categoryId === 2222 ? `disabled` : ``
+    let disabled = ``;
+    if (categoryId === 1111 || categoryId === 2222) disabled = `disabled`;
 
     return(
       <React.Fragment>
@@ -252,8 +259,8 @@ class Player extends Component {
            type="button"
            onClick={
 
-             (e) => this.checkOnDisabled(
-               e, () => this.deleteQuestion(currentCategory, currentQuestion)
+             (e) => this.checkOnDisabled(e,
+               () => this.deleteQuestion(currentCategory, currentQuestion)
              )
 
            }

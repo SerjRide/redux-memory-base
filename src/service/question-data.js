@@ -13,6 +13,11 @@ const setBase = (data) => {
   localStorage.setItem('Base', serialObj)
 };
 
+const setBookmarks = (data) => {
+  const serialObj = JSON.stringify(data)
+  localStorage.setItem('Bookmarks', serialObj)
+}
+
 
 const findId = (category, question = 0) => {
   const data = QuestionData;
@@ -101,20 +106,39 @@ const addedInNEW = function() {
 const addBookmark = function(id) {
   const category = findCountById(id);
   const question = findCountById(id, false);
-  QuestionData[category][question].bookmark = true
+  if (QuestionData[category][question].bookmark === true){
+    QuestionData[category][question].bookmark = false
+  } else {
+    QuestionData[category][question].bookmark = true
+  }
+  QuestionData[1].splice(1,QuestionData[1].length - 1);
   setBase(QuestionData);
   addedInBookmarks();
 }
 
-const addedInBookmarks = function() {
+const updateBookmarkData = function() {
   let data = QuestionData, insideDate = []
-  data[1].map((item, i) => insideDate[i] = item.date )
+  data[1].map((item, i) => {
+    if (item.date === undefined) return null
+    return insideDate[i] = item.date
+  })
+  return insideDate
+}
+
+const removeQuestion = (currentCategory, i) => {
+  QuestionData[currentCategory].splice(i,1);
+  setBase(QuestionData);
+}
+
+const addedInBookmarks = function() {
+  let data = QuestionData;
+  updateBookmarkData();
   for (let i = 2; i < data.length; i++) {
     for (let j = 1; j < data[i].length; j++) {
       const { question, answer, bookmark, date } = data[i][j];
       const id = data[i][j].id - Math.pow(10,11);
       if (bookmark === true) {
-        if (insideDate.indexOf(data[i][j].date) === -1) {
+        if (updateBookmarkData().indexOf(data[i][j].date) === -1) {
           createQuestion(1, question, answer, id, date);
         }
       }
@@ -124,10 +148,6 @@ const addedInBookmarks = function() {
   QuestionData[1][0].display = show
 }
 
-const removeQuestion = (currentCategory, i) => {
-  QuestionData[currentCategory].splice(i,1);
-  setBase(QuestionData);
-}
 
 const rename = (currentCategory, newName) => {
   QuestionData[currentCategory][0].name = newName;

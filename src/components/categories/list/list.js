@@ -5,7 +5,8 @@ import {
   removeCategory,
   rename,
   findCountById,
-  addedInNEW } from '../../../service/question-data.js';
+  addedInNEW,
+  addBookmark } from '../../../service/question-data.js';
 
 //импорты для доступа к state'у
 import { setCategory, update, editCategory, alert } from '../../actions';
@@ -18,6 +19,7 @@ class List extends Component {
     if (window.confirm(text)) {
       removeCategory(id)
       addedInNEW();
+      addBookmark();
       this.props.update()
     }
   };
@@ -132,7 +134,7 @@ class List extends Component {
           display = 'hide'
         }
       }
-        
+
 
       return(
         <li key={ id } className={`over_li ${display}`}>
