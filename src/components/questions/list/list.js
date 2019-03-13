@@ -28,6 +28,16 @@ const List = (props) => {
     }
   }
 
+  const checkOnDisabled = (e, func) => {
+    let obj = e.target.classList
+    for (let key in obj) {
+      if (obj[key] === 'disabled') {
+        return null
+      }
+    }
+    func();
+  }
+
   if (!currentCategory) {
     content = (
       <li className="list-group-item item">
@@ -63,6 +73,9 @@ const List = (props) => {
           question = String(visibleItems[i].question).substring(0,30) + '...';
         }
 
+        const categoryId = props.state[0]
+        let disabled = categoryId === 1111 ? `disabled` : ``
+
         const { id } = item
         return (
           <li key={ id }
@@ -71,16 +84,18 @@ const List = (props) => {
               { question }
             </p>
             <button
-               type="button" onClick={ () => props.editQuestion(id) }
+               type="button"
+               onClick={ (e) => checkOnDisabled(e, () => props.editQuestion(id)) }
                data-title="Edit Question"
-               className="btn btn-secondary list">
-               <i className="far fa-edit"></i>
+               className={`btn btn-secondary list ${disabled}`}>
+               <i className={`far fa-edit ${disabled}`}></i>
             </button>
             <button
-              type="button" onClick={ () => delQuestion(id) }
+              type="button"
+              onClick={ (e) => checkOnDisabled(e, () => delQuestion(id)) }
               data-title="Delete Question"
-              className="btn btn-secondary list">
-              <i className="far fa-trash-alt"></i>
+              className={`btn btn-secondary list ${disabled}`}>
+              <i className={`far fa-trash-alt ${disabled}`}></i>
             </button>
           </li>
         )

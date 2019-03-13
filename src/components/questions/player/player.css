@@ -118,3 +118,17 @@ textarea.you-answer.success {
   0% { box-shadow: inset 0 0 0px 0px #4bbf73 }
   to { box-shadow: inset 0 0 12px 0px #4bbf73 }
 }
+
+.btn.btn-secondary.disabled {
+  color: #D1DAD1;
+  cursor: default;
+  position:relative;
+}
+
+.btn.btn-secondary.disabled:focus {
+  box-shadow: 0 0 0 #fff;
+}
+
+.btn.btn-secondary.disabled:hover {
+  background-color: #fff;
+}

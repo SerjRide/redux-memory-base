@@ -4,7 +4,8 @@ import {
   QuestionData,
   changeQuestion,
   findCountById,
-  findId } from '../../../service/question-data.js';
+  findId,
+  addedInNEW } from '../../../service/question-data.js';
 
 import { connect } from 'react-redux';
 import { setQuestion, alert } from '../../actions';
@@ -33,6 +34,7 @@ class Edit extends Component {
       const currentQuestion = findCountById(this.props.state[1], false);
 
       changeQuestion(currentCategory, currentQuestion, question, answer)
+      addedInNEW();
       this.props.alert('Question changed');
       this.props.setQuestion(findId(currentCategory,currentQuestion))
     }

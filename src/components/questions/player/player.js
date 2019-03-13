@@ -6,7 +6,8 @@ import {
   QuestionData,
   removeQuestion,
   findCountById,
-  findId } from '../../../service/question-data.js';
+  findId,
+  addedInNEW } from '../../../service/question-data.js';
 
 import { setQuestion, hidePlayer, editQuestion, alert  } from '../../actions';
 
@@ -114,6 +115,7 @@ class Player extends Component {
 
     if (window.confirm(text)) {
       removeQuestion(currentCategory, currentQuestion);
+      addedInNEW();
 
       if (length !== 2 || currentQuestion !== length - 1) {
         this.props.setQuestion(findId(currentCategory, currentQuestion))
@@ -135,6 +137,22 @@ class Player extends Component {
     }
   }
 
+  checkOnDisabled = (e, func) => {
+    let obj = e.target.classList
+    for (let key in obj) {
+      if (obj[key] === 'disabled') {
+        return null
+      }
+    }
+    func();
+  }
+
+  linkOnEdit = () => {
+    const currentCategory = findCountById(this.props.state[0]);
+    const currentQuestion = findCountById(this.props.state[1], false);
+    this.props.editQuestion(findId(currentCategory ,currentQuestion))
+  }
+
   render() {
     const currentCategory = findCountById(this.props.state[0]);
     const currentQuestion = findCountById(this.props.state[1], false);
@@ -142,6 +160,11 @@ class Player extends Component {
     const { length } = QuestionData[currentCategory]
     const { name } = QuestionData[currentCategory][0];
     const { question } = QuestionData[currentCategory][currentQuestion];
+    const categoryId =this.props.state[0]
+
+    console.log(this.props.state[0])
+
+    let disabled = categoryId === 1111 ? `disabled` : ``
 
     return(
       <React.Fragment>
@@ -164,21 +187,17 @@ class Player extends Component {
            aria-label="Basic example">
         <button
            data-title="Edit question"
-           type="button" onClick={
-
-             () => this.props
-                       .editQuestion(
-                         findId(currentCategory ,currentQuestion))
-
-           }
-           className="btn btn-secondary">
-           <i className="far fa-edit"></i>
+           type="button"
+           onClick={ (e) => this.checkOnDisabled(e, this.linkOnEdit) }
+           className={`btn btn-secondary ${disabled}`}>
+           <i className={`far fa-edit ${disabled}`}></i>
         </button>
         <button
-           type="button" onClick={ () => console.log('Bookmarks') }
-           className="btn btn-secondary"
+           type="button"
+           onClick={ (e) => this.checkOnDisabled(e, () => console.log('bookmarks')) }
+           className={`btn btn-secondary ${disabled}`}
            data-title="Add to bookmarks">
-           <i className="far fa-bookmark"></i>
+           <i className={`far fa-bookmark ${disabled}`}></i>
         </button>
         <button
            type="button" onClick={ () => this.changeQuestion('<<') }
@@ -220,10 +239,16 @@ class Player extends Component {
         </button>
         <button
            type="button"
-           onClick={ () => this.deleteQuestion(currentCategory, currentQuestion) }
-           className="btn btn-secondary"
+           onClick={
+
+             (e) => this.checkOnDisabled(
+               e, () => this.deleteQuestion(currentCategory, currentQuestion)
+             )
+
+           }
+           className={`btn btn-secondary ${disabled}`}
            data-title="Delete question">
-           <i className="far fa-trash-alt"></i>
+           <i className={`far fa-trash-alt ${disabled}`}></i>
         </button>
       </div>
 

@@ -86,8 +86,8 @@ const addedInNEW = function addedInNEW () {
   for (let i = 1; i < data.length; i++) {
     for (let j = 1; j < data[i].length; j++) {
       const {question, answer, date } = data[i][j];
-      const id = Math.floor(Math.random()*10000);
-      if (getAddedTime(date) < 4) {
+      const id = data[i][j].id - Math.pow(10,12);
+      if (getAddedTime(date) < 2) {
         if (insideDate.indexOf(QuestionData[0]) === -1) {
           createQuestion(0, question, answer, id, date);
         }
