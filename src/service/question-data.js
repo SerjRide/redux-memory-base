@@ -13,12 +13,6 @@ const setBase = (data) => {
   localStorage.setItem('Base', serialObj)
 };
 
-const setBookmarks = (data) => {
-  const serialObj = JSON.stringify(data)
-  localStorage.setItem('Bookmarks', serialObj)
-}
-
-
 const findId = (category, question = 0) => {
   const data = QuestionData;
   let id = 0;
