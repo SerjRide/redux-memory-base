@@ -6,6 +6,7 @@ import './app.css';
 import Header from '../header';
 import Categories from '../categories';
 import Questions from '../questions';
+import Confirm from '../confirm';
 
 import Alert from '../alerts';
 import { connect } from 'react-redux';
@@ -32,6 +33,7 @@ class App extends Component {
       <div className="app">
         { alert }
         <Header />
+        <Confirm />
         <Router>
           <Row left={left} right={right}/>
         </Router>

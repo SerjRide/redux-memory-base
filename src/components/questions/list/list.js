@@ -12,7 +12,8 @@ import {
   setQuestion,
   editQuestion,
   addNewQuestion,
-  update } from '../../actions';
+  update,
+  confirm } from '../../actions';
 
 import { connect } from 'react-redux';
 
@@ -22,13 +23,10 @@ const List = (props) => {
   let content;
 
   const delQuestion = (id) => {
-    const text = 'Are you sure?';
-    if (window.confirm(text)) {
       removeQuestion(currentCategory, findCountById(id, false))
       addedInNEW();
       addBookmark();
       props.setCategory(findId(currentCategory))
-    }
   }
 
   const checkOnDisabled = (e, func) => {
@@ -94,7 +92,11 @@ const List = (props) => {
         let button = (
             <button
               type="button"
-              onClick={ (e) => checkOnDisabled(e, () => delQuestion(id)) }
+
+              onClick={ (e) => checkOnDisabled(e,
+                        ( ) => props.confirm('Are you sure?',
+                               delQuestion, id)) }
+
               data-title="Delete Question"
               className={`btn btn-secondary list ${disabled}`}>
               <i className={`far fa-trash-alt ${disabled}`}></i>
@@ -166,7 +168,8 @@ const mapDispatchToProps = (dispatch) => {
     onSelectQuestion: (id) => dispatch(setQuestion(id)),
     editQuestion: (id) => dispatch(editQuestion(id)),
     addNewQuestion: () => dispatch(addNewQuestion()),
-    update: () => dispatch(update())
+    update: () => dispatch(update()),
+    confirm: (text, func, id) => dispatch(confirm(text, func, id))
   }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(List);

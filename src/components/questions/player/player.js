@@ -3,14 +3,11 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import {
-  QuestionData,
-  removeQuestion,
-  findCountById,
-  findId,
-  addedInNEW,
-  addBookmark } from '../../../service/question-data.js';
+  QuestionData, removeQuestion, findCountById, findId,
+  addedInNEW, addBookmark } from '../../../service/question-data.js';
 
-import { setQuestion, hidePlayer, editQuestion, alert, update  } from '../../actions';
+import { setQuestion, hidePlayer, editQuestion, alert,
+  update, confirm  } from '../../actions';
 
 import './player.css';
 
@@ -110,24 +107,23 @@ class Player extends Component {
     this.props.alert('Answer is not correct', false)
   };
 
-  deleteQuestion = (currentCategory, currentQuestion) => {
+  deleteQuestion = (currentQuestion) => {
+    const currentCategory = findCountById(this.props.state[0]);
     const { length } = QuestionData[currentCategory];
     const text = 'Are you sure?';
 
-    if (window.confirm(text)) {
-      removeQuestion(currentCategory, currentQuestion);
-      addedInNEW();
-      addBookmark();
+    removeQuestion(currentCategory, currentQuestion);
+    addedInNEW();
+    addBookmark();
 
-      if (length !== 2 || currentQuestion !== length - 1) {
-        this.props.setQuestion(findId(currentCategory, currentQuestion))
-      }
+    if (length !== 2 || currentQuestion !== length - 1) {
+      this.props.setQuestion(findId(currentCategory, currentQuestion))
+    }
 
-      if (length === 2) {
-        this.props.hidePlayer()
-      } else if (currentQuestion === length - 1) {
-        this.props.setQuestion(findId(currentCategory, currentQuestion - 1))
-      }
+    if (length === 2) {
+      this.props.hidePlayer()
+    } else if (currentQuestion === length - 1) {
+      this.props.setQuestion(findId(currentCategory, currentQuestion - 1))
     }
 
   }
@@ -290,8 +286,8 @@ class Player extends Component {
            onClick={
 
              (e) => this.checkOnDisabled(e,
-               () => this.deleteQuestion(currentCategory, currentQuestion)
-             )
+             ( ) => this.props.confirm('Are you sure?',
+             ( ) => this.deleteQuestion(currentQuestion)))
 
            }
            className={`btn btn-secondary ${disabled}`}
@@ -331,7 +327,8 @@ const mapDispatchToProps = (dispatch) => {
     hidePlayer: () => dispatch(hidePlayer()),
     editQuestion: (id) => dispatch(editQuestion(id)),
     alert: (text,type) => dispatch(alert(text,type)),
-    update: () => dispatch(update())
+    update: () => dispatch(update()),
+    confirm: (text, func, id) => dispatch(confirm(text, func, id))
   }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Player);

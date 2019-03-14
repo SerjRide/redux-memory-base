@@ -9,19 +9,16 @@ import {
   addBookmark } from '../../../service/question-data.js';
 
 //импорты для доступа к state'у
-import { setCategory, update, editCategory, alert } from '../../actions';
+import { setCategory, update, editCategory, alert, confirm } from '../../actions';
 import { connect } from 'react-redux';
 
 class List extends Component {
 
   delCategory = (id) => {
-    const text = 'Are you sure?'
-    if (window.confirm(text)) {
       removeCategory(id)
       addedInNEW();
       addBookmark();
       this.props.update()
-    }
   };
 
   startEdit = (id) => {
@@ -89,6 +86,7 @@ class List extends Component {
       let newQuestion = id === 1111 ? <i className="fas fa-fire"></i> : null
       let bookmarks = id === 2222 ? <i className="fas fa-bookmark"></i> : null
 
+
       if (id !== 1111 && id !== 2222) {
         buttons_1 = (
           <React.Fragment>
@@ -99,7 +97,8 @@ class List extends Component {
                <i className="far fa-edit"></i>
             </button>
             <button
-              type="button" onClick={ () => this.delCategory(id) }
+              type="button" onClick={ () => this.props.confirm('Are you sure?',
+                                      this.delCategory, id) }
               data-title="Delete Category"
               className="btn btn-secondary list">
               <i className="far fa-trash-alt"></i>
@@ -180,7 +179,8 @@ const mapDispatchToProps = (dispatch) => {
     onSelectCategory: (id) => dispatch(setCategory(id)),
     update: () => dispatch(update()),
     editCategory: () => dispatch(editCategory()),
-    alert: (text, type) => dispatch(alert(text, type))
+    alert: (text, type) => dispatch(alert(text, type)),
+    confirm: (text, func, id) => dispatch(confirm(text, func, id))
   }
 };
 

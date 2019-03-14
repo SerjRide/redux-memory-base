@@ -1,0 +1,63 @@
+.modal {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 3;
+  left: 0;
+  top:0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  animation: modal 0.1s;
+}
+
+.modal-content {
+  border-radius: 15px;
+  background-color: #fefefe;
+  padding-top: 20px;
+  border: 1px solid #888;
+  width: 40%;
+  animation: modal-content 0.1s;
+}
+
+@media screen and (max-width: 769px) {
+  .modal-content {
+    margin: 5% auto;
+    width: 90%;
+  }
+}
+
+@keyframes modal {
+  from {opacity: 0}
+  to {opacity: 1}
+}
+
+@keyframes modal-content {
+  from {
+    transform: scale(2);
+    opacity: 0
+  }
+  to {
+    transform: scale(1);
+    opacity: 1
+  }
+}
+
+p.under-modal {
+  text-align: center;
+}
+
+button.under-modal {
+  border-top: solid 1px #EBE9E9;
+}
+
+button.under-modal:focus {
+  box-shadow: 0 0 0 #fff;
+}
+
+button.under-modal.red {
+  font-weight: bold;
+  color: red;
+}

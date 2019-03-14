@@ -23,7 +23,6 @@
 
 textarea:focus {
   outline: 0px;
-  box-shadow: 0 0 1px 1px #4bbf73;
 }
 
 .btn-group {
