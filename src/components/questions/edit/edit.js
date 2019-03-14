@@ -32,7 +32,7 @@ class Edit extends Component {
 
     if (question !== '' && answer !== '') {
       let currentCategory, currentQuestion;
-      if (this.props.state[0] === 2222){
+      if (this.props.state[0] === 2222) {
         const id = this.props.state[1]
         const link = id + Math.pow(10,11)
         currentCategory = findCountById(link)

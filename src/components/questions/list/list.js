@@ -122,8 +122,8 @@ const List = (props) => {
                type="button"
                onClick={ (e) => checkOnDisabled(e, () => props.editQuestion(id)) }
                data-title="Edit Question"
-               className={`btn btn-secondary list ${disabled}`}>
-               <i className={`far fa-edit ${disabled}`}></i>
+               className={`btn btn-secondary list`}>
+               <i className={`far fa-edit`}></i>
             </button>
             { button }
           </li>

@@ -237,8 +237,8 @@ class Player extends Component {
            data-title="Edit question"
            type="button"
            onClick={ (e) => this.checkOnDisabled(e, this.linkOnEdit) }
-           className={`btn btn-secondary ${disabled}`}>
-           <i className={`far fa-edit ${disabled}`}></i>
+           className={`btn btn-secondary`}>
+           <i className={`far fa-edit`}></i>
         </button>
         <button
            type="button"
