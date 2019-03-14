@@ -10,7 +10,7 @@ import {
   addedInNEW,
   addBookmark } from '../../../service/question-data.js';
 
-import { setQuestion, hidePlayer, editQuestion, alert  } from '../../actions';
+import { setQuestion, hidePlayer, editQuestion, alert, update  } from '../../actions';
 
 import './player.css';
 
@@ -156,15 +156,39 @@ class Player extends Component {
   }
 
   addBookmarkBtn = () => {
-    const categoryCount = findCountById(this.props.state[0]);
-    const questionCount = findCountById(this.props.state[1], false);
-    const currentQuestion = this.props.state[1];
-    const { bookmark } = QuestionData[categoryCount][questionCount]
-    addBookmark(currentQuestion);
-    this.setState({ update: this.state.update + 1});
-    if (!bookmark) this.props.alert('Question added to bookmarks')
-    if (bookmark) this.props.alert('Question removed from bookmarks')
+    let categoryCount, questionCount, currentQuestion;
+    if (this.props.state[0] === 2222){
+      const id = this.props.state[1]
+      const link = id + Math.pow(10,11)
+      categoryCount = findCountById(link)
+      questionCount = findCountById(link, false);
+      const questionCountInNew = findCountById(this.props.state[1], false);
+      currentQuestion = link;
+      const length = QuestionData[1].length
 
+      if (length !== 2 || questionCountInNew !== length - 1) {
+        this.props.setQuestion(findId(1, questionCountInNew + 1))
+      }
+
+      if (length === 2) {
+        this.props.update();
+      } else if (questionCountInNew === length - 1) {
+        this.props.setQuestion(findId(1, questionCountInNew - 1))
+      }
+
+    } else {
+      categoryCount = findCountById(this.props.state[0]);
+      questionCount = findCountById(this.props.state[1], false);
+      currentQuestion = this.props.state[1];
+    }
+      console.log('categoryCount',categoryCount)
+      console.log('questionCount',questionCount)
+      console.log('currentQuestion',currentQuestion)
+      const { bookmark } = QuestionData[categoryCount][questionCount]
+      addBookmark(currentQuestion);
+      this.setState({ update: this.state.update + 1});
+      if (!bookmark) this.props.alert('Question added to bookmarks')
+      if (bookmark) this.props.alert('Question removed from bookmarks')
   }
 
   render() {
@@ -212,10 +236,10 @@ class Player extends Component {
         </button>
         <button
            type="button"
-           onClick={ (e) => this.checkOnDisabled(e, this.addBookmarkBtn) }
-           className={`btn btn-secondary ${disabled}`}
+           onClick={ this.addBookmarkBtn }
+           className={`btn btn-secondary`}
            data-title="Add to bookmarks">
-           <i className={`${stock} fa-bookmark ${disabled}`}></i>
+           <i className={`${stock} fa-bookmark`}></i>
         </button>
         <button
            type="button" onClick={ () => this.changeQuestion('<<') }
@@ -300,7 +324,8 @@ const mapDispatchToProps = (dispatch) => {
     setQuestion: (id) => dispatch(setQuestion(id)),
     hidePlayer: () => dispatch(hidePlayer()),
     editQuestion: (id) => dispatch(editQuestion(id)),
-    alert: (text,type) => dispatch(alert(text,type))
+    alert: (text,type) => dispatch(alert(text,type)),
+    update: () => dispatch(update())
   }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Player);

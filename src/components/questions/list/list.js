@@ -11,7 +11,8 @@ import {
   setCategory,
   setQuestion,
   editQuestion,
-  addNewQuestion } from '../../actions';
+  addNewQuestion,
+  update } from '../../actions';
 
 import { connect } from 'react-redux';
 
@@ -43,7 +44,11 @@ const List = (props) => {
   const removeFromBookmarks = (id) => {
     const link = id + Math.pow(10,11)
     addBookmark(link)
-    props.setCategory(findId(currentCategory))
+    if (QuestionData[1].length === 1) {
+      props.update();
+    } else {
+      props.setCategory(findId(currentCategory))
+    }
   }
 
   if (!currentCategory) {
@@ -160,7 +165,8 @@ const mapDispatchToProps = (dispatch) => {
     setCategory: (id) => dispatch(setCategory(id)),
     onSelectQuestion: (id) => dispatch(setQuestion(id)),
     editQuestion: (id) => dispatch(editQuestion(id)),
-    addNewQuestion: () => dispatch(addNewQuestion())
+    addNewQuestion: () => dispatch(addNewQuestion()),
+    update: () => dispatch(update())
   }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(List);
