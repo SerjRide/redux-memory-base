@@ -8,8 +8,13 @@ import {
   addedInNEW,
   addBookmark } from '../../../service/question-data.js';
 
-//импорты для доступа к state'у
-import { setCategory, update, editCategory, alert, confirm } from '../../actions';
+import {
+  setCategory,
+  update,
+  editCategory,
+  alert,
+  confirm } from '../../actions';
+
 import { connect } from 'react-redux';
 
 class List extends Component {
@@ -24,7 +29,6 @@ class List extends Component {
   startEdit = (id) => {
     const count = findCountById(id)
     const name = QuestionData[count][0].name
-    console.log(QuestionData[count][0].name)
     document.getElementById(`rename_${id}`).value = name;
     document.getElementById(`category_${id}`).style.display = 'none';
     document.getElementById(`form_${id}`).style.display = 'flex';
@@ -99,7 +103,6 @@ class List extends Component {
             <button
               type="button" onClick={ () => this.props.confirm('Are you sure?',
                                       this.delCategory, id) }
-              data-title="Delete Category"
               className="btn btn-secondary list">
               <i className="far fa-trash-alt"></i>
             </button>

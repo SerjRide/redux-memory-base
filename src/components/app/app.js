@@ -17,17 +17,10 @@ import Row from '../row';
 class App extends Component {
 
   render() {
-
-    console.log(this.props.state)
-
     let alert = null;
-
-    if (this.props.state[5]) {
-      alert = <Alert />
-    }
-
     let left = <Categories />
     let right = <Questions />;
+    if (this.props.state[5]) alert = <Alert />
 
     return (
       <div className="app">

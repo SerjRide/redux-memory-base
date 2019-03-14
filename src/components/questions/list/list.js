@@ -5,7 +5,8 @@ import {
   findId,
   findCountById,
   addedInNEW,
-  addBookmark } from '../../../service/question-data.js';
+  addBookmark,
+  alignToFitScreen } from '../../../service/question-data.js';
 
 import {
   setCategory,
@@ -97,7 +98,6 @@ const List = (props) => {
                         ( ) => props.confirm('Are you sure?',
                                delQuestion, id)) }
 
-              data-title="Delete Question"
               className={`btn btn-secondary list ${disabled}`}>
               <i className={`far fa-trash-alt ${disabled}`}></i>
             </button>
@@ -154,10 +154,22 @@ const List = (props) => {
         </li>
       )
     }
-
   }
 
-  return content;
+  let scroll = 'disabled'
+
+  if(props.state[0] !== null) {
+    const { length } = QuestionData[currentCategory]
+    if (length >= alignToFitScreen()) {
+      scroll = ''
+    }
+  }
+
+  return (
+    <div className={`list ${ scroll }`}>
+      { content }
+    </div>
+  );
 
 };
 

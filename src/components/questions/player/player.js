@@ -110,8 +110,6 @@ class Player extends Component {
   deleteQuestion = (currentQuestion) => {
     const currentCategory = findCountById(this.props.state[0]);
     const { length } = QuestionData[currentCategory];
-    const text = 'Are you sure?';
-
     removeQuestion(currentCategory, currentQuestion);
     addedInNEW();
     addBookmark();
