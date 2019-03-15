@@ -23,11 +23,19 @@ const List = (props) => {
   const currentCategory = findCountById(props.state[0]);
   let content;
 
+  console.log(props.state)
+
   const delQuestion = (id) => {
-      removeQuestion(currentCategory, findCountById(id, false))
-      addedInNEW();
-      addBookmark();
-      props.setCategory(findId(currentCategory))
+    let link = id;
+    if (props.state[0] === 1111) {
+      link = id + Math.pow(10,12)
+      if (QuestionData[0].length === 2) {
+        props.update();
+      } else props.setCategory(findId(currentCategory))
+    }   else props.setCategory(findId(currentCategory))
+    removeQuestion(findCountById(link), findCountById(link, false))
+    addedInNEW();
+    addBookmark();
   }
 
   const checkOnDisabled = (e, func) => {
@@ -77,7 +85,8 @@ const List = (props) => {
     if (QuestionData[currentCategory] !== undefined) {
       content = visibleItems.map((item, i) => {
 
-        let { question } = visibleItems[i]
+        let { question } = visibleItems[i], text, link;
+
 
         if (visibleItems[i].question === undefined) return null
 
@@ -87,19 +96,24 @@ const List = (props) => {
 
         const categoryId = props.state[0]
 
-        let disabled = ``;
-        if (categoryId === 1111) disabled = `disabled`
+        if (categoryId === 1111) {
+          const questionLink = findCountById(item.id + Math.pow(10,12))
+          const categoryName = QuestionData[questionLink][0].name
+          text = `Вы действительно хотите удалить
+          этот вопрос? Вопрос так же будет удалён из категории ${categoryName}`;
+        } else text = 'Вы действительно хотите удалить этот вопрос?';
+
 
         let button = (
             <button
               type="button"
 
               onClick={ (e) => checkOnDisabled(e,
-                        ( ) => props.confirm('Are you sure?',
+                        ( ) => props.confirm(text,
                                delQuestion, id)) }
 
-              className={`btn btn-secondary list ${disabled}`}>
-              <i className={`far fa-trash-alt ${disabled}`}></i>
+              className={`btn btn-secondary list`}>
+              <i className={`far fa-trash-alt`}></i>
             </button>
         );
 

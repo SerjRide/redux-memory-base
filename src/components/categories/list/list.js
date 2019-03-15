@@ -82,7 +82,6 @@ class List extends Component {
   render() {
     const term = this.props.state[7]
     let visibleItems = this.search(QuestionData, term);
-    console.log(visibleItems);
     const items = visibleItems.map((item, i) => {
 
       const { name, id } = item[0];
@@ -126,7 +125,6 @@ class List extends Component {
       }
 
       let display = '';
-      console.log(id);
       if (id === 1111) {
         if (QuestionData[0][0].display === false) display = 'hide'
       }

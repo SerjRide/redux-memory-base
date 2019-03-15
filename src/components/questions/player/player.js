@@ -108,20 +108,33 @@ class Player extends Component {
   };
 
   deleteQuestion = (currentQuestion) => {
-    const currentCategory = findCountById(this.props.state[0]);
-    const { length } = QuestionData[currentCategory];
-    removeQuestion(currentCategory, currentQuestion);
+    const categoryCount = findCountById(this.props.state[0])
+    const questionId = findId(categoryCount, currentQuestion)
+    let link = findId(categoryCount, currentQuestion);
+    if (this.props.state[0] === 1111) {
+      link = link + Math.pow(10,12)
+      if (QuestionData[0].length === 2) this.props.update();
+    }
+    if (this.props.state[0] === 2222) {
+      link = link + Math.pow(10,11)
+      if (QuestionData[0].length === 2) this.props.update();
+    }
+    const { length } = QuestionData[categoryCount];
+    console.log(length);
+    console.log('категория', findCountById(link))
+    console.log('вопрос', findCountById(link, false))
+    removeQuestion(findCountById(link), findCountById(link, false))
     addedInNEW();
     addBookmark();
 
     if (length !== 2 || currentQuestion !== length - 1) {
-      this.props.setQuestion(findId(currentCategory, currentQuestion))
+      this.props.setQuestion(findId(categoryCount, currentQuestion))
     }
 
     if (length === 2) {
       this.props.hidePlayer()
     } else if (currentQuestion === length - 1) {
-      this.props.setQuestion(findId(currentCategory, currentQuestion - 1))
+      this.props.setQuestion(findId(categoryCount, currentQuestion - 1))
     }
 
   }
@@ -203,10 +216,18 @@ class Player extends Component {
       stock = `fas`
     } else stock = `far`
 
-    let disabled = ``;
     let data_title = `Add to bookmarks`;
-    if (categoryId === 1111 || categoryId === 2222) disabled = `disabled`;
-    if (categoryId === 2222) data_title = `Remove from bookmarks`
+    let text = 'Вы действительно хотите удалить вопрос?'
+    if (this.props.state[0] === 1111 || this.props.state[0] === 2222) {
+      const questionId = this.props.state[1];
+      let index;
+      if (this.props.state[0] === 1111) index = Math.pow(10,12)
+      if (this.props.state[0] === 2222) index = Math.pow(10,11)
+      const questionLink = findCountById(questionId + index)
+      const categoryName = QuestionData[questionLink][0].name
+      text = `Вы действительно хотите удалить
+      этот вопрос? Вопрос так же будет удалён из категории ${categoryName}`;
+    }
 
     return(
       <React.Fragment>
@@ -284,13 +305,13 @@ class Player extends Component {
            onClick={
 
              (e) => this.checkOnDisabled(e,
-             ( ) => this.props.confirm('Are you sure?',
+             ( ) => this.props.confirm(text,
              ( ) => this.deleteQuestion(currentQuestion)))
 
            }
-           className={`btn btn-secondary ${disabled}`}
+           className={`btn btn-secondary`}
            data-title="Delete question">
-           <i className={`far fa-trash-alt ${disabled}`}></i>
+           <i className={`far fa-trash-alt`}></i>
         </button>
       </div>
 
