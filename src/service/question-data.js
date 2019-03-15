@@ -157,9 +157,12 @@ const changeQuestion = (currentCategory,
   setBase(QuestionData);
 }
 
-const alignToFitScreen = () => {
-  const scr_height=document.documentElement.clientHeight;
-  let height;
+const alignToFitScreen = (type) => {
+  const scr_width = document.documentElement.clientWidth;
+  const scr_height = document.documentElement.clientHeight;
+  let height, width;
+  if (scr_width <= 992) { width = 1 }
+  else { width = height }
   if (scr_height >= 659) height = 11
   if (scr_height <= 659 && scr_height >= 536) height = 10
   if (scr_height <= 536 && scr_height >= 469) height = 9
@@ -167,7 +170,8 @@ const alignToFitScreen = () => {
   if (scr_height <= 423 && scr_height >= 367) height = 7
   if (scr_height <= 367 && scr_height >= 321) height = 6
   if (scr_height <= 321 && scr_height >= 321) height = 6
-  return height;
+  if (type === 'width') return width;
+  if (type === 'height') return height;
 }
 
 addedInNEW();

@@ -54,8 +54,7 @@ class CreateCategory extends Component {
             </div>
             <button
                type="button" onClick={ this.check }
-               className="btn btn-secondary list"
-               data-title="Add category">
+               className="btn btn-secondary list">
                <i className="fas fa-plus"></i>
             </button>
           </form>

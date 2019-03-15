@@ -82,6 +82,7 @@ class List extends Component {
   render() {
     const term = this.props.state[7]
     let visibleItems = this.search(QuestionData, term);
+    console.log(visibleItems);
     const items = visibleItems.map((item, i) => {
 
       const { name, id } = item[0];
@@ -96,13 +97,12 @@ class List extends Component {
           <React.Fragment>
             <button
                type="button" onClick={ () => this.startEdit(id) }
-               data-title="Rename Category"
                className="btn btn-secondary list">
                <i className="far fa-edit"></i>
             </button>
             <button
               type="button" onClick={ () => this.props.confirm('Are you sure?',
-                                      this.delCategory, id) }
+                                            this.delCategory, id) }
               className="btn btn-secondary list">
               <i className="far fa-trash-alt"></i>
             </button>
@@ -118,7 +118,6 @@ class List extends Component {
             </button>
             <button
               type="button" onClick={ () => this.closeEdit(id) }
-              data-title="Cancel"
               className="btn btn-secondary list">
               <i className="fas fa-times"></i>
             </button>
@@ -127,14 +126,12 @@ class List extends Component {
       }
 
       let display = '';
-      if (i === 0) {
-        if (QuestionData[0][0].display === false){
-          display = 'hide'
-        }}
-      if (i === 1) {
-        if (QuestionData[1][0].display === false){
-          display = 'hide'
-        }
+      console.log(id);
+      if (id === 1111) {
+        if (QuestionData[0][0].display === false) display = 'hide'
+      }
+      if (id === 2222) {
+        if (QuestionData[1][0].display === false) display = 'hide'
       }
 
 

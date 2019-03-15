@@ -107,7 +107,6 @@ const List = (props) => {
           <button
              type="button"
              onClick={ () => removeFromBookmarks(id) }
-             data-title="Remove from bookmarks"
              className={`btn btn-secondary list`}>
              <i className={`fas fa-times`}></i>
           </button>
@@ -123,7 +122,6 @@ const List = (props) => {
             <button
                type="button"
                onClick={ (e) => checkOnDisabled(e, () => props.editQuestion(id)) }
-               data-title="Edit Question"
                className={`btn btn-secondary list`}>
                <i className={`far fa-edit`}></i>
             </button>
@@ -160,9 +158,8 @@ const List = (props) => {
 
   if(props.state[0] !== null) {
     const { length } = QuestionData[currentCategory]
-    if (length >= alignToFitScreen()) {
-      scroll = ''
-    }
+    if (length >= alignToFitScreen('width')) scroll = ''
+    if (length >= alignToFitScreen('height')) scroll = ''
   }
 
   return (

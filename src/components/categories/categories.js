@@ -10,7 +10,8 @@ import { QuestionData,
 
 const Categories = () => {
   let scroll = 'disabled'
-  if (QuestionData.length > alignToFitScreen()) scroll = ''
+  if (QuestionData.length > alignToFitScreen('width')) scroll = '' ;
+  if (QuestionData.length > alignToFitScreen('height')) scroll = '' ;
 
   return(
     <ul className="list-group">
