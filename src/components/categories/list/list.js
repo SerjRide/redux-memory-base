@@ -100,7 +100,7 @@ class List extends Component {
                <i className="far fa-edit"></i>
             </button>
             <button
-              type="button" onClick={ () => this.props.confirm('Are you sure?',
+              type="button" onClick={ () => this.props.confirm('Вы действительно хотите безвозвратно удалить эту категорию вопросов?',
                                             this.delCategory, id) }
               className="btn btn-secondary list">
               <i className="far fa-trash-alt"></i>

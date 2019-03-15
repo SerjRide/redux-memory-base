@@ -13,11 +13,23 @@ class Head extends Component {
     this.props.questionSearch(e.target.value)
   }
 
+
   render() {
-    const categoryCount = findCountById(this.props.state[0])
+    const categoryId = this.props.state[0]
+    const categoryCount = findCountById(categoryId)
     const categoryName = QuestionData[categoryCount][0].name
-    let button;
-    if (this.props.state[0] === null) {
+    let button, addButton;
+    addButton = (
+      <button
+        type="button" onClick={ (e) => this.props.addNewQuestion(e) }
+        className="btn btn-secondary list head"
+        data-title="Add question">
+        <i className="fas fa-plus"></i>
+      </button>
+    )
+
+    if (categoryId === 1111 || categoryId === 2222) addButton = null;
+    if (categoryId === null) {
       button = null;
     } else {
       button = (
@@ -28,12 +40,7 @@ class Head extends Component {
             className="search"
             type="text"
             placeholder="search"/>
-          <button
-            type="button" onClick={ (e) => this.props.addNewQuestion(e) }
-            className="btn btn-secondary list head"
-            data-title="Add question">
-            <i className="fas fa-plus"></i>
-          </button>
+          { addButton }
         </React.Fragment>
       )
     }
