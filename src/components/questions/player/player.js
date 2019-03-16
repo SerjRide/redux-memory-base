@@ -109,7 +109,6 @@ class Player extends Component {
 
   deleteQuestion = (currentQuestion) => {
     const categoryCount = findCountById(this.props.state[0])
-    const questionId = findId(categoryCount, currentQuestion)
     let link = findId(categoryCount, currentQuestion);
     if (this.props.state[0] === 1111) {
       link = link + Math.pow(10,12)
@@ -120,9 +119,6 @@ class Player extends Component {
       if (QuestionData[0].length === 2) this.props.update();
     }
     const { length } = QuestionData[categoryCount];
-    console.log(length);
-    console.log('категория', findCountById(link))
-    console.log('вопрос', findCountById(link, false))
     removeQuestion(findCountById(link), findCountById(link, false))
     addedInNEW();
     addBookmark();
@@ -192,9 +188,6 @@ class Player extends Component {
       questionCount = findCountById(this.props.state[1], false);
       currentQuestion = this.props.state[1];
     }
-      console.log('categoryCount',categoryCount)
-      console.log('questionCount',questionCount)
-      console.log('currentQuestion',currentQuestion)
       const { bookmark } = QuestionData[categoryCount][questionCount]
       addBookmark(currentQuestion);
       this.setState({ update: this.state.update + 1});
@@ -209,7 +202,6 @@ class Player extends Component {
     const { length } = QuestionData[currentCategory]
     const { name } = QuestionData[currentCategory][0];
     const { question } = QuestionData[currentCategory][currentQuestion];
-    const categoryId =this.props.state[0]
     let insideDate = [], stock;
     QuestionData[1].map((item, i) => insideDate[i] = item.date )
     if (insideDate.indexOf(QuestionData[currentCategory][currentQuestion].date) !== -1) {

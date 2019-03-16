@@ -23,8 +23,6 @@ const List = (props) => {
   const currentCategory = findCountById(props.state[0]);
   let content;
 
-  console.log(props.state)
-
   const delQuestion = (id) => {
     let link = id;
     if (props.state[0] === 1111) {
@@ -85,7 +83,7 @@ const List = (props) => {
     if (QuestionData[currentCategory] !== undefined) {
       content = visibleItems.map((item, i) => {
 
-        let { question } = visibleItems[i], text, link;
+        let { question } = visibleItems[i], text;
 
 
         if (visibleItems[i].question === undefined) return null
