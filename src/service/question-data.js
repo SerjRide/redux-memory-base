@@ -163,13 +163,25 @@ const alignToFitScreen = (type) => {
   let height, width;
   if (scr_width <= 992) { width = 1 }
   else { width = height }
-  if (scr_height >= 659) height = 11
-  if (scr_height <= 659 && scr_height >= 536) height = 10
-  if (scr_height <= 536 && scr_height >= 469) height = 9
-  if (scr_height <= 469 && scr_height >= 423) height = 8
-  if (scr_height <= 423 && scr_height >= 367) height = 7
-  if (scr_height <= 367 && scr_height >= 321) height = 6
-  if (scr_height <= 321 && scr_height >= 321) height = 6
+  if (scr_height <= 1050 && scr_height >= 1000) height = 19
+  if (scr_height <= 1000 && scr_height >= 950) height = 19
+  if (scr_height <= 950  && scr_height >= 900) height = 18
+  if (scr_height <= 900  && scr_height >= 850) height = 17
+  if (scr_height <= 850  && scr_height >= 800) height = 16
+  if (scr_height <= 800  && scr_height >= 750) height = 15
+  if (scr_height <= 750  && scr_height >= 700) height = 14
+  if (scr_height <= 700  && scr_height >= 650) height = 13
+  if (scr_height <= 650  && scr_height >= 600) height = 13
+  if (scr_height <= 600  && scr_height >= 550) height = 10
+  if (scr_height <= 550  && scr_height >= 500) height = 10
+  if (scr_height <= 500  && scr_height >= 450) height = 9
+  if (scr_height <= 450  && scr_height >= 400) height = 9
+  if (scr_height <= 400  && scr_height >= 350) height = 8
+  if (scr_height <= 350  && scr_height >= 300) height = 5
+  if (scr_height <= 300  && scr_height >= 250) height = 5
+  if (scr_height <= 250  && scr_height >= 200) height = 4
+  if (scr_height <= 200  && scr_height >= 150) height = 4
+  if (scr_height <= 150  && scr_height >= 100) height = 3
   if (type === 'width') return width;
   if (type === 'height') return height;
 }

@@ -63,7 +63,7 @@ html {
 div.list {
   overflow: hidden;
   overflow-y: scroll;
-  height: 76.9vh;
+  height: 80.9vh;
 }
 
 div.list.disabled {
