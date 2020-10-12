@@ -37,8 +37,8 @@ class AddQuestion extends Component {
     this.props.alert('Both fields must be filled', false)
   };
 
-  onEnter = (e) => {
-    if (e.which === 13) {
+  onEnter = (e, func) => {
+    if (e.keyCode === 13 && !e.shiftKey) {
       e.preventDefault();
       this.check();
     }
