@@ -31,6 +31,12 @@ class Player extends Component {
     }
   }
 
+  doneQuestionList = (text) =>{
+    const categoryCount = findCountById(this.props.state[0])
+    console.log(`questionListDone ${categoryCount}`)
+    console.log(text)
+  }
+
   changeQuestion = (action) => {
     const { setQuestion } = this.props
     const currentCategory = findCountById(this.props.state[0]);
@@ -57,7 +63,6 @@ class Player extends Component {
         setQuestion(findId(currentCategory,count));
       }
     }
-    if (action === '<<') setQuestion(findId(currentCategory,1));
     if (action === '>>') setQuestion(findId(currentCategory,length));
     if (action === 'number') {
       if (value > length || value < 1) {
@@ -221,6 +226,11 @@ class Player extends Component {
       этот вопрос? Вопрос так же будет удалён из категории ${categoryName}`;
     }
 
+    let report = `
+      Категория: ${name},
+      Рекомендуемая дата повторения: 01.03.21
+      `;
+
     return(
       <React.Fragment>
       <ul className="list-group" id="question_list">
@@ -255,10 +265,15 @@ class Player extends Component {
            <i className={`${stock} fa-bookmark`}></i>
         </button>
         <button
-           type="button" onClick={ () => this.changeQuestion('<<') }
+           type="button" onClick={
+
+             () => this.props.confirm(report,
+             () => this.doneQuestionList(this.props))
+
+           }
            className="btn btn-secondary"
-           data-title="Go to the first question">
-           <i className="fas fa-angle-double-left"></i>
+           data-title="Question list done">
+           <i className="fa fa-check"></i>
         </button>
         <button
            type="button" onClick={ () => this.changeQuestion('-') }
