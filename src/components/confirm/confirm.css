@@ -1,3 +1,7 @@
+#modal_input {
+  margin: 0px 17%;
+}
+
 .modal {
   display: none;
   justify-content: center;

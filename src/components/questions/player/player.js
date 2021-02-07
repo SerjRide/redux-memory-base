@@ -157,6 +157,17 @@ class Player extends Component {
     func();
   }
 
+  inputValues = (name, func) => {
+    let selectName = () => {
+      document.getElementById('modal_input').focus()
+      document.getElementById('modal_input').select()
+    }
+    console.log(document.getElementById('modal_input'))
+    document.getElementById('modal_input').value = name;
+    setTimeout(() => (selectName()), 100)
+    func()
+  }
+
   linkOnEdit = () => {
     const currentCategory = findCountById(this.props.state[0]);
     const currentQuestion = findCountById(this.props.state[1], false);
@@ -267,8 +278,9 @@ class Player extends Component {
         <button
            type="button" onClick={
 
+             () => this.inputValues(name,
              () => this.props.confirm(report,
-             () => this.doneQuestionList(this.props))
+             () => this.doneQuestionList(this.props)))
 
            }
            className="btn btn-secondary"

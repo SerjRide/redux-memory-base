@@ -21,7 +21,7 @@ class Confirm extends Component {
 
   modalContent = (e) => {
     const { id } = e.target
-    if (id !== 'modal_message') {
+    if (id !== 'modal_message' && id !== 'modal_input') {
       if (id === 'yes_modal') this.modalAccept()
       this.modalClose()
     }
@@ -49,6 +49,9 @@ class Confirm extends Component {
           onClick={ (e) => this.modalContent(e) }>
           <div className="modal-content">
             <p id="modal_message" className="under-modal"> { text }</p>
+            <input
+              className="input-group-text"
+              id="modal_input" type="text" />
             <button id="yes_modal"
               onKeyDown={ (e) => this.keyEsc(e) }
               className="btn under-modal red">
