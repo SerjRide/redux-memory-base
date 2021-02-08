@@ -162,10 +162,50 @@ class Player extends Component {
       document.getElementById('modal_input').focus()
       document.getElementById('modal_input').select()
     }
+    let now = this.dateConverter(new Date())
+    let recomend_date = this.dateRecomender(name).recomend
     console.log(document.getElementById('modal_input'))
-    document.getElementById('modal_input').value = name;
+    document.getElementById('modal_input').value = now + ' - ' + recomend_date;
     setTimeout(() => (selectName()), 100)
     func()
+  }
+
+  dateConverter = (date, stamp = 0) => {
+    if (typeof(date) === 'number') {
+      let seconds = date / 1000
+      let minutes = seconds / 60
+      let hours = minutes / 60
+      let days = (hours / 24) - 1
+      return days
+    }
+
+    if (typeof(date) === 'string') {
+      let day = +date.substring(0, 2)
+      let month = +date.substring(3, 5)
+      let year = +('20' + date.substring(6))
+      let timestamp = (new Date(year, month - 1, day)).getTime()
+      return timestamp
+    }
+
+    if (typeof(date) === 'object') {
+      let day   =  '' + date.getDate();
+      let month =  '' + (date.getMonth() + 1);
+      let year  = ('' + date.getFullYear()).substring(2)
+      if (day.length   === 1)   day = '0' + day
+      if (month.length === 1) month = '0' + month
+      return `${day}.${month}.${year}`
+    }
+  }
+
+  dateRecomender = (name) => {
+    let first  = name.split(' - ')[0]
+    let second = name.split(' - ')[1]
+    let firstStamp = this.dateConverter(first)
+    let secondStamp = this.dateConverter(second)
+    let difference = secondStamp - firstStamp
+    let dayPass = this.dateConverter(difference)
+    let recomend = this.dateConverter(new Date(secondStamp + difference))
+    return {pass: dayPass, recomend: recomend}
   }
 
   linkOnEdit = () => {
@@ -237,10 +277,8 @@ class Player extends Component {
       этот вопрос? Вопрос так же будет удалён из категории ${categoryName}`;
     }
 
-    let report = `
-      Категория: ${name},
-      Рекомендуемая дата повторения: 01.03.21
-      `;
+    let report = `прошло дней с момента повторения:
+      ${this.dateRecomender(name).pass}`;
 
     return(
       <React.Fragment>
