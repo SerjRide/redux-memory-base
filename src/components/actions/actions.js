@@ -24,9 +24,9 @@ const categorySearch = (text) => ({ type: 'CATEGORY_SEARCH',
 const questionSearch = (text) => ({ type: 'QUESTION_SEARCH',
                                     payload: text  })
 
-const confirm = (text, func = () => {}, id, type = 'del') => ({
+const confirm = (func = () => {}, id, type, name = '', new_name = '') => ({
   type: 'MODAL',
-  payload: [text, func, id, type]
+  payload: [func, id, type, name, new_name]
 })
 
 export {

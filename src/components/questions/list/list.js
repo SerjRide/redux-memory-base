@@ -83,7 +83,7 @@ const List = (props) => {
     if (QuestionData[currentCategory] !== undefined) {
       content = visibleItems.map((item, i) => {
 
-        let { question } = visibleItems[i], text;
+        let { question } = visibleItems[i];
 
 
         if (visibleItems[i].question === undefined) return null
@@ -94,21 +94,18 @@ const List = (props) => {
 
         const categoryId = props.state[0]
 
-        if (categoryId === 1111) {
-          const questionLink = findCountById(item.id + Math.pow(10,12))
-          const categoryName = QuestionData[questionLink][0].name
-          text = `Вы действительно хотите удалить
-          этот вопрос? Вопрос так же будет удалён из категории ${categoryName}`;
-        } else text = 'Вы действительно хотите удалить этот вопрос?';
-
+        //if (categoryId === 1111) {
+          //const questionLink = findCountById(item.id + Math.pow(10,12))
+          //const categoryName = QuestionData[questionLink][0].name
+        //}
 
         let button = (
             <button
               type="button"
 
               onClick={ (e) => checkOnDisabled(e,
-                        ( ) => props.confirm(text,
-                               delQuestion, id)) }
+                        ( ) => props.confirm(delQuestion,
+                                              id, 'del_question')) }
 
               className={`btn btn-secondary list`}>
               <i className={`far fa-trash-alt`}></i>
@@ -190,7 +187,7 @@ const mapDispatchToProps = (dispatch) => {
     editQuestion: (id) => dispatch(editQuestion(id)),
     addNewQuestion: () => dispatch(addNewQuestion()),
     update: () => dispatch(update()),
-    confirm: (text, func, id) => dispatch(confirm(text, func, id))
+    confirm: (func, id, type) => dispatch(confirm(func, id, type))
   }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(List);

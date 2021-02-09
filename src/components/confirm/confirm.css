@@ -1,5 +1,19 @@
+button.modul_btn:active {
+  height: 20px;
+  border: 0;
+  background: #DAE4D3;
+
+}
+
+button.modul_btn {
+  height: 20px;
+  border: 0;
+  cursor: pointer;
+  transition: 0.1s;
+}
+
 #modal_input {
-  margin: 0px 17%;
+  margin: 0% 0% 0% 30%;
 }
 
 .modal {

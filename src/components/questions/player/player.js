@@ -157,57 +157,6 @@ class Player extends Component {
     func();
   }
 
-  inputValues = (name, func) => {
-    // let selectName = () => {
-    //   document.getElementById('modal_input').focus()
-    //   document.getElementById('modal_input').select()
-    // }
-    let now = this.dateConverter(new Date())
-    func()
-    // console.log(document.getElementById('modal_input'))
-    let recomend_date = this.dateRecomender(name).recomend
-    // document.getElementById('modal_input').value = now + ' - ' + recomend_date;
-    // setTimeout(() => (selectName()), 100)
-  }
-
-  dateConverter = (date, stamp = 0) => {
-    if (typeof(date) === 'number') {
-      let seconds = date / 1000
-      let minutes = seconds / 60
-      let hours = minutes / 60
-      let days = (hours / 24) - 1
-      return days
-    }
-
-    if (typeof(date) === 'string') {
-      let day = +date.substring(0, 2)
-      let month = +date.substring(3, 5)
-      let year = +('20' + date.substring(6))
-      let timestamp = (new Date(year, month - 1, day)).getTime()
-      return timestamp
-    }
-
-    if (typeof(date) === 'object') {
-      let day   =  '' + date.getDate();
-      let month =  '' + (date.getMonth() + 1);
-      let year  = ('' + date.getFullYear()).substring(2)
-      if (day.length   === 1)   day = '0' + day
-      if (month.length === 1) month = '0' + month
-      return `${day}.${month}.${year}`
-    }
-  }
-
-  dateRecomender = (name) => {
-    let first  = name.split(' - ')[0]
-    let second = name.split(' - ')[1]
-    let firstStamp = this.dateConverter(first)
-    let secondStamp = this.dateConverter(second)
-    let difference = secondStamp - firstStamp
-    let dayPass = this.dateConverter(difference)
-    let recomend = this.dateConverter(new Date(secondStamp + difference))
-    return {pass: dayPass, recomend: recomend}
-  }
-
   linkOnEdit = () => {
     const currentCategory = findCountById(this.props.state[0]);
     const currentQuestion = findCountById(this.props.state[1], false);
@@ -265,20 +214,14 @@ class Player extends Component {
     } else stock = `far`
 
     let data_title = `Add to bookmarks`;
-    let text = 'Вы действительно хотите удалить вопрос?'
     if (this.props.state[0] === 1111 || this.props.state[0] === 2222) {
-      const questionId = this.props.state[1];
+      //const questionId = this.props.state[1];
       let index;
       if (this.props.state[0] === 1111) index = Math.pow(10,12)
       if (this.props.state[0] === 2222) index = Math.pow(10,11)
-      const questionLink = findCountById(questionId + index)
-      const categoryName = QuestionData[questionLink][0].name
-      text = `Вы действительно хотите удалить
-      этот вопрос? Вопрос так же будет удалён из категории ${categoryName}`;
+      //const questionLink = findCountById(questionId + index)
+      //const categoryName = QuestionData[questionLink][0].name
     }
-
-    let report = `прошло дней с момента повторения:
-      ${this.dateRecomender(name).pass}`;
 
     return(
       <React.Fragment>
@@ -316,9 +259,9 @@ class Player extends Component {
         <button
            type="button" onClick={
 
-             () => this.inputValues(name,
-             () => this.props.confirm(report,
-             () => this.doneQuestionList(this.props), null, 'done'))
+             () => this.props.confirm(
+             () => this.doneQuestionList(this.props),
+             null, 'done', name)
 
            }
            className="btn btn-secondary"
@@ -362,8 +305,9 @@ class Player extends Component {
            onClick={
 
              (e) => this.checkOnDisabled(e,
-             ( ) => this.props.confirm(text,
-             ( ) => this.deleteQuestion(currentQuestion)))
+             ( ) => this.props.confirm(
+             ( ) => this.deleteQuestion(currentQuestion),
+             currentQuestion, 'del_question'))
 
            }
            className={`btn btn-secondary`}
@@ -404,7 +348,7 @@ const mapDispatchToProps = (dispatch) => {
     editQuestion: (id) => dispatch(editQuestion(id)),
     alert: (text,type) => dispatch(alert(text,type)),
     update: () => dispatch(update()),
-    confirm: (text, func, id, type) => dispatch(confirm(text, func, id, type))
+    confirm: (func, id, type, name) => dispatch(confirm(func, id, type, name))
   }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Player);

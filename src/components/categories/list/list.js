@@ -89,7 +89,6 @@ class List extends Component {
       let buttons_1, buttons_2;
       let newQuestion = id === 1111 ? <i className="fas fa-fire"></i> : null
       let bookmarks = id === 2222 ? <i className="fas fa-bookmark"></i> : null
-      let del_text = 'Вы действительно хотите безвозвратно удалить эту категорию вопросов?'
 
       if (id !== 1111 && id !== 2222) {
         buttons_1 = (
@@ -102,7 +101,8 @@ class List extends Component {
             <button
               type="button" onClick={ () => {
 
-                this.props.confirm(del_text, this.delCategory, id) }
+                this.props.confirm(this.delCategory,
+                                    id, 'del_category') }
 
               }
               className="btn btn-secondary list">
@@ -181,7 +181,7 @@ const mapDispatchToProps = (dispatch) => {
     update: () => dispatch(update()),
     editCategory: () => dispatch(editCategory()),
     alert: (text, type) => dispatch(alert(text, type)),
-    confirm: (text, func, id) => dispatch(confirm(text, func, id))
+    confirm: (func, id, type) => dispatch(confirm(func, id, type))
   }
 };
 
