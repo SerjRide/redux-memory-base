@@ -40,8 +40,19 @@ class Confirm extends Component {
   }
 
   render() {
-    const text = this.props.state[9][0]
+    const type = this.props.state[9][3]
+
+    let text = this.props.state[9][0]
     if (text !== '') this.modalOpen()
+
+    let input = null
+    if (type === 'done') {
+      input = <input
+        className="input-group-text"
+        id="modal_input" type="text" />
+      text = `прошло дней с момента повторения: `
+    }
+    console.log(this.props.state[9])
 
     return(
         <div id="myModal"
@@ -49,9 +60,7 @@ class Confirm extends Component {
           onClick={ (e) => this.modalContent(e) }>
           <div className="modal-content">
             <p id="modal_message" className="under-modal"> { text }</p>
-            <input
-              className="input-group-text"
-              id="modal_input" type="text" />
+            { input }
             <button id="yes_modal"
               onKeyDown={ (e) => this.keyEsc(e) }
               className="btn under-modal red">

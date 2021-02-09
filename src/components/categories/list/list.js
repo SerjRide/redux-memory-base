@@ -89,7 +89,7 @@ class List extends Component {
       let buttons_1, buttons_2;
       let newQuestion = id === 1111 ? <i className="fas fa-fire"></i> : null
       let bookmarks = id === 2222 ? <i className="fas fa-bookmark"></i> : null
-
+      let del_text = 'Вы действительно хотите безвозвратно удалить эту категорию вопросов?'
 
       if (id !== 1111 && id !== 2222) {
         buttons_1 = (
@@ -100,8 +100,11 @@ class List extends Component {
                <i className="far fa-edit"></i>
             </button>
             <button
-              type="button" onClick={ () => this.props.confirm('Вы действительно хотите безвозвратно удалить эту категорию вопросов?',
-                                            this.delCategory, id) }
+              type="button" onClick={ () => {
+
+                this.props.confirm(del_text, this.delCategory, id) }
+
+              }
               className="btn btn-secondary list">
               <i className="far fa-trash-alt"></i>
             </button>

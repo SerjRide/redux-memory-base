@@ -158,16 +158,16 @@ class Player extends Component {
   }
 
   inputValues = (name, func) => {
-    let selectName = () => {
-      document.getElementById('modal_input').focus()
-      document.getElementById('modal_input').select()
-    }
+    // let selectName = () => {
+    //   document.getElementById('modal_input').focus()
+    //   document.getElementById('modal_input').select()
+    // }
     let now = this.dateConverter(new Date())
-    let recomend_date = this.dateRecomender(name).recomend
-    console.log(document.getElementById('modal_input'))
-    document.getElementById('modal_input').value = now + ' - ' + recomend_date;
-    setTimeout(() => (selectName()), 100)
     func()
+    // console.log(document.getElementById('modal_input'))
+    let recomend_date = this.dateRecomender(name).recomend
+    // document.getElementById('modal_input').value = now + ' - ' + recomend_date;
+    // setTimeout(() => (selectName()), 100)
   }
 
   dateConverter = (date, stamp = 0) => {
@@ -318,7 +318,7 @@ class Player extends Component {
 
              () => this.inputValues(name,
              () => this.props.confirm(report,
-             () => this.doneQuestionList(this.props)))
+             () => this.doneQuestionList(this.props), null, 'done'))
 
            }
            className="btn btn-secondary"
@@ -404,7 +404,7 @@ const mapDispatchToProps = (dispatch) => {
     editQuestion: (id) => dispatch(editQuestion(id)),
     alert: (text,type) => dispatch(alert(text,type)),
     update: () => dispatch(update()),
-    confirm: (text, func, id) => dispatch(confirm(text, func, id))
+    confirm: (text, func, id, type) => dispatch(confirm(text, func, id, type))
   }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Player);
