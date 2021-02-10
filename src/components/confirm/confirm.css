@@ -1,3 +1,13 @@
+.modal_btn_group {
+  max-width: 15%;
+}
+
+.col-lg-6.my {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 button.modul_btn:active {
   height: 20px;
   border: 0;
@@ -13,7 +23,7 @@ button.modul_btn {
 }
 
 #modal_input {
-  margin: 0% 0% 0% 30%;
+  margin: 0% 0% 0% auto;
 }
 
 .modal {

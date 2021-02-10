@@ -186,6 +186,14 @@ const alignToFitScreen = (type) => {
   if (type === 'height') return height;
 }
 
+const findNameByStringDate = (name) => {
+  let data = QuestionData, num = 0;
+  for (let i = 0; i < data.length; i++) {
+    if (data[i][0].name.split(' - ')[1] === name) num++
+  }
+  return num
+}
+
 addedInNEW();
 addBookmark();
 
@@ -201,5 +209,6 @@ export {
   findCountById,
   addedInNEW,
   addBookmark,
-  alignToFitScreen
+  alignToFitScreen,
+  findNameByStringDate
 }

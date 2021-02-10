@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { confirm, update } from '../actions'
 
+import { findNameByStringDate } from '../../service/question-data.js';
+
 import './confirm.css';
 
 class Confirm extends Component {
@@ -78,6 +80,7 @@ class Confirm extends Component {
   }
 
   componentDidUpdate() {
+    let categry_message = ''
     let new_name = this.props.state[9][4]
     let name = this.props.state[9][3]
     if (new_name === '') {
@@ -91,6 +94,8 @@ class Confirm extends Component {
         setTimeout(() => {
 
             document.getElementById('modal_input').value = recomendDate
+            categry_message = `Списков в этот день: ${ this.categoryDetector(recomendDate) }`
+            document.getElementById('category_message').innerText = categry_message
 
           },100)
       }
@@ -99,9 +104,12 @@ class Confirm extends Component {
       setTimeout(() => {
 
           document.getElementById('modal_input').value = new_name
+          categry_message = `Списков в этот день: ${ this.categoryDetector(new_name) }`
+          document.getElementById('category_message').innerText = categry_message
 
         },100)
     }
+
   }
 
   changeDate = (btn) => {
@@ -154,6 +162,11 @@ class Confirm extends Component {
     this.props.update()
   }
 
+  categoryDetector = (date) => {
+    let research_date = date.split(' - ')[1]
+    return findNameByStringDate(research_date)
+  }
+
   render() {
     const type = this.props.state[9][2]
     const name = this.props.state[9][3]
@@ -169,24 +182,25 @@ class Confirm extends Component {
           <p hold="true" id="modal_message" className="under-modal">
             { text }
           </p>
+          <p hold="true" id="category_message" className="under-modal"></p>
           <div hold="true" id="modul_row" className='row'>
-            <div hold="true" className="col-lg-10">
-              <input
-                hold="true"
-                className="input-group-text"
-                id="modal_input" type="text"
-              />
-            </div>
-            <div hold="true" className="col-lg-2">
-              <div hold="true" className="modal_btn_group">
-                <button hold="true" type="button" className="modul_btn"
-                  onClick={ () => this.changeDate('up') }>
-                  <i hold="true" className="fa fa-angle-up" aria-hidden="true"></i>
-                </button>
-                <button hold="true" type="button" className="modul_btn"
+            <div hold="true" className="col-lg-12">
+              <div hold="true" className="col-lg-6 my">
+                <input
+                  hold="true"
+                  className="input-group-text"
+                  id="modal_input" type="text"
+                />
+                <div hold="true" className="modal_btn_group">
+                  <button hold="true" type="button" className="modul_btn"
+                    onClick={ () => this.changeDate('up') }>
+                    <i hold="true" className="fa fa-angle-up" aria-hidden="true"></i>
+                  </button>
+                  <button hold="true" type="button" className="modul_btn"
                     onClick={ () => this.changeDate('down') }>
-                  <i hold="true" className="fa fa-angle-down" aria-hidden="true"></i>
-                </button>
+                    <i hold="true" className="fa fa-angle-down" aria-hidden="true"></i>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
