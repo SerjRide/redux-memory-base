@@ -22,7 +22,6 @@ class CreateCategory extends Component {
       setTimeout(() => {
         this.newCategoryInput.className = 'form-control';
       }, 1800);
-      console.log(this.newCategoryInput.className);
       if (String(value).length > 25) {
         this.props.alert('Category name is too long', false);
       } else {
