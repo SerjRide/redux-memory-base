@@ -43,7 +43,8 @@ class Confirm extends Component {
 
   dateRecomender = (name) => {
     let first  = name.split(' - ')[0]
-    let second = name.split(' - ')[1]
+    //let second = name.split(' - ')[1]
+    let second = this.dateConverter(new Date())
     let firstStamp = this.dateConverter(first)
     let secondStamp = this.dateConverter(second)
     let difference = secondStamp - firstStamp
@@ -191,7 +192,7 @@ class Confirm extends Component {
                   className="input-group-text"
                   id="modal_input" type="text"
                 />
-                <div hold="true" className="modal_btn_group">
+                <div hold="true" id ="modal_btn" className="modal_btn_group">
                   <button hold="true" type="button" className="modul_btn"
                     onClick={ () => this.changeDate('up') }>
                     <i hold="true" className="fa fa-angle-up" aria-hidden="true"></i>

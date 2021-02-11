@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import {
-  QuestionData, removeQuestion, findCountById, findId,
+  QuestionData, removeQuestion, findCountById, findId, rename,
   addedInNEW, addBookmark } from '../../../service/question-data.js';
 
 import { setQuestion, hidePlayer, editQuestion, alert,
@@ -29,12 +29,6 @@ class Player extends Component {
       const currentQuestion = findCountById(this.props.state[1], false);
       this.selectQNamber.value = currentQuestion;
     }
-  }
-
-  doneQuestionList = (text) =>{
-    const categoryCount = findCountById(this.props.state[0])
-    console.log(`questionListDone ${categoryCount}`)
-    console.log(text)
   }
 
   changeQuestion = (action) => {
@@ -200,6 +194,17 @@ class Player extends Component {
       if (bookmark) this.props.alert('Question removed from bookmarks')
   }
 
+    doneQuestionList = () => {
+      let categoryId = this.props.state[0]
+      let inputValue = document.getElementById('modal_input').value
+      if (inputValue !== '') {
+        rename(findCountById(categoryId),inputValue);
+        this.props.update();
+        this.props.alert('Category renamed');
+      } else this.props.alert('ERROR: modal input is empty', false);
+
+    }
+
   render() {
     const currentCategory = findCountById(this.props.state[0]);
     const currentQuestion = findCountById(this.props.state[1], false);
@@ -260,7 +265,7 @@ class Player extends Component {
            type="button" onClick={
 
              () => this.props.confirm(
-             () => this.doneQuestionList(this.props),
+             () => this.doneQuestionList(),
              null, 'done', name)
 
            }
