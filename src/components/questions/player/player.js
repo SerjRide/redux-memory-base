@@ -14,7 +14,7 @@ import './player.css';
 class Player extends Component {
 
   state = { update: 0 }
-
+  // test
   componentDidMount() {
     const currentQuestion = findCountById(this.props.state[1], false);
     this.selectQNamber.value = currentQuestion;
