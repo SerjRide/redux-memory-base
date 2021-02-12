@@ -205,6 +205,25 @@ class Player extends Component {
 
     }
 
+    categoryDetector = () => {
+      let category_id = this.props.state[0]
+      let count = findCountById(category_id)
+      //eslint-disable-next-line
+      let regexp = /([\d]{2}[\.]){2}[\d]{2}\s[-]\s[0-3][\d][\.][0-1][\d][\.][2][\d]/
+      let { name } = QuestionData[count][0]
+      if (regexp.test(name)) {
+
+        setTimeout(() => {
+          document.getElementById('done_btn')
+                                    .classList.remove('disabled')
+          document.getElementById('fa_check')
+                                    .classList.remove('disabled')
+
+        }, 100)
+
+      }
+    }
+
   render() {
     const currentCategory = findCountById(this.props.state[0]);
     const currentQuestion = findCountById(this.props.state[1], false);
@@ -224,9 +243,9 @@ class Player extends Component {
       let index;
       if (this.props.state[0] === 1111) index = Math.pow(10,12)
       if (this.props.state[0] === 2222) index = Math.pow(10,11)
-      //const questionLink = findCountById(questionId + index)
-      //const categoryName = QuestionData[questionLink][0].name
     }
+
+    this.categoryDetector()
 
     return(
       <React.Fragment>
@@ -262,16 +281,17 @@ class Player extends Component {
            <i className={`${stock} fa-bookmark`}></i>
         </button>
         <button
-           type="button" onClick={
+           type="button" id="done_btn" onClick={
 
+             (e) => this.checkOnDisabled(e,
              () => this.props.confirm(
              () => this.doneQuestionList(),
-             null, 'done', name)
+             null, 'done', name))
 
            }
-           className="btn btn-secondary"
+           className="btn btn-secondary disabled"
            data-title="Question list done">
-           <i className="fa fa-check"></i>
+           <i id="fa_check" className="fa fa-check disabled"></i>
         </button>
         <button
            type="button" onClick={ () => this.changeQuestion('-') }
@@ -353,7 +373,9 @@ const mapDispatchToProps = (dispatch) => {
     editQuestion: (id) => dispatch(editQuestion(id)),
     alert: (text,type) => dispatch(alert(text,type)),
     update: () => dispatch(update()),
-    confirm: (func, id, type, name) => dispatch(confirm(func, id, type, name))
+    confirm: (func, id, type, name) => {
+      dispatch(confirm(func, id, type, name))
+    }
   }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Player);
